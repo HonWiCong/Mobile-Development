@@ -1,0 +1,35 @@
+[
+  {
+    "id": 1,
+    "name": "Co-Labs Coworking",
+    "rating": "3.5",
+    "facilities": "High-speed WiFi, Air-conditioning, Printer/scanner, OnSite Café",
+    "pass_rates": "39 (Daily), 260 (weekly), 870 (monthly)",
+    "images": {
+      "icon": " R.drawable.co_labs_icon",
+      "cover": "R.drawable.co_labs"
+    }
+  },
+  {
+    "id": 2,
+    "name": "Colony Coworking Space",
+    "rating": "4.0",
+    "facilities": "High-speed WiFi, Air-conditioning, Printer/scanner, Free Drinking Water, Kitchen",
+    "pass_rates": "35.00 (Daily), 200. 00 (Weekly),750.00 (Monthly)",
+    "images": {
+      "icon": " R.drawable.colony_icon",
+      "cover": "R.drawable.colony"
+    }
+  },
+  {
+    "id": 3,
+    "name": "Common Ground",
+    "rating": "4.0",
+    "facilities": "High-speed WiFi, Air-conditioning, OnSite Cafe, Free Drinking Water",
+    "pass_rates": "32.00 (Daily),200.00 (Weekly),760.00 (Monthly)",
+    "images": {
+      "icon": " R.drawable.common_ground_icon",
+      "cover": "R.drawable.common_ground"
+    }
+  }
+]
