@@ -20,18 +20,21 @@ class MainActivity : AppCompatActivity() {
 
 
     private lateinit var recyclerView: RecyclerView
-    private lateinit var debug: TextView
 
     private fun init() {
         recyclerView = findViewById(R.id.main_list)
-        debug = findViewById(R.id.debug)
 
         placeList = readPlaceFromJson()
-        debug.text = placeList[2].name
 
-        recyclerView.adapter = PlaceAdapter(placeList, this)
+        var adapter = PlaceAdapter(placeList, this)
+        recyclerView.adapter = adapter
         recyclerView.layoutManager = LinearLayoutManager(this)
 
+        adapter.setOnItemClickListener(object: PlaceAdapter.onItemClickListener{
+            override fun onItemClick(position: Int) {
+                redirectToBookingPage(position)
+            }
+        })
     }
 
     private fun redirectToBookingPage(index : Int) {

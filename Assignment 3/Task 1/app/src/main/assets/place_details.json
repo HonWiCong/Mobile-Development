@@ -1,35 +1,86 @@
 [
   {
-    "id": 1,
     "name": "Co-Labs Coworking",
     "rating": "3.5",
     "facilities": "High-speed WiFi, Air-conditioning, Printer/scanner, OnSite Café",
-    "pass_rates": "39 (Daily), 260 (weekly), 870 (monthly)",
+    "pass_rates": {
+      "daily": 39,
+      "weekly": 260,
+      "monthly": 870
+    },
     "images": {
       "icon": "co_labs_icon",
       "cover": "co_labs"
     }
   },
   {
-    "id": 2,
     "name": "Colony Coworking Space",
     "rating": "4.0",
     "facilities": "High-speed WiFi, Air-conditioning, Printer/scanner, Free Drinking Water, Kitchen",
-    "pass_rates": "35.00 (Daily), 200. 00 (Weekly),750.00 (Monthly)",
+    "pass_rates": {
+      "daily": 35,
+      "weekly": 200,
+      "monthly": 750
+    },
     "images": {
       "icon": "colony_icon",
       "cover": "colony"
     }
   },
   {
-    "id": 3,
     "name": "Common Ground",
     "rating": "4.0",
     "facilities": "High-speed WiFi, Air-conditioning, OnSite Cafe, Free Drinking Water",
-    "pass_rates": "32.00 (Daily),200.00 (Weekly),760.00 (Monthly)",
+    "pass_rates": {
+      "daily": 32,
+      "weekly": 200,
+      "monthly": 760
+    },
     "images": {
       "icon": "common_ground_icon",
       "cover": "common_ground"
+    }
+  },
+  {
+    "name": "Head Space",
+    "rating": "4.2",
+    "facilities": "High-speed WiFi, Air-conditioning, Printer/scanner, Photocopier, Free Drinking Water, Shower",
+    "pass_rates": {
+      "daily": 36,
+      "weekly": 220,
+      "monthly": 780
+    },
+    "images": {
+      "icon": "headspace_icon",
+      "cover": "headspace"
+    }
+  },
+  {
+    "name": "Hour Loft",
+    "rating": "3.8",
+    "facilities": "High-speed WiFi, Air-conditioning, Kitchen, Free Drinking Water, Printer/scanner",
+    "pass_rates": {
+      "daily": 28,
+      "weekly": 200,
+      "monthly": 500
+    },
+    "images": {
+      "icon": "hour_loft_icon",
+      "cover": "hour_loft"
+    }
+  },
+  {
+    "name": "Komune Living",
+    "rating": "4.5",
+    "facilities": "High-speed WiFi, Air-conditioning, Printer/scanner, Free Drinking Water, Free Snacks, Kitchen, Shower",
+    "pass_rates": {
+      "daily": 36,
+      "weekly": 220,
+      "monthly": 750
+    },
+    "images": {
+      "icon": "komune_icon",
+      "cover": "komune"
     }
   }
 ]

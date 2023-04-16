@@ -5,8 +5,14 @@ data class Place(
     val name: String,
     val rating: String,
     val facilities: String,
-    val passRates: String,
+    val pass_rates: PassRate,
     val images: Image
+)
+
+data class PassRate(
+    val daily: Int = 0,
+    val weekly: Int = 0,
+    val monthly: Int = 0
 )
 
 data class Image(
