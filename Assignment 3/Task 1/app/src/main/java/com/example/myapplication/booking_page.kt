@@ -12,14 +12,14 @@ class booking_page : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_booking_page)
 
-        var id = intent.getStringExtra("id")?.toInt()
+        var index = intent.getStringExtra("index")?.toInt()
         val name = readPlaceFromJson(1)
 
         var title = findViewById<TextView>(R.id.booking_page)
         title.text = name
     }
 
-    fun readPlaceFromJson(id: Int?): String? {
+    fun readPlaceFromJson(index: Int?): String? {
         val jsonString = applicationContext.assets.open("place_details.json").bufferedReader().use { it.readText() }
         val gson = Gson()
         val places = gson.fromJson(jsonString, Array<Place>::class.java).toList()

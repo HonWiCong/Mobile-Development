@@ -3,9 +3,10 @@ package com.example.myapplication
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.text.method.LinkMovementMethod
 import android.widget.TextView
-import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.google.gson.Gson
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -15,32 +16,35 @@ class MainActivity : AppCompatActivity() {
         init()
     }
 
-    private lateinit var colabsCoworking: ConstraintLayout
-    private lateinit var colonyCoworkingSpace: ConstraintLayout
-    private lateinit var commonGround: ConstraintLayout
-    private lateinit var headSpace: ConstraintLayout
-    private lateinit var hourLoft: ConstraintLayout
-    private lateinit var komuneLiving: ConstraintLayout
-    private lateinit var title: TextView
-    private var count = 0
+    private var placeList = ArrayList<Place>()
+
+
+    private lateinit var recyclerView: RecyclerView
+    private lateinit var debug: TextView
 
     private fun init() {
-        colabsCoworking = findViewById(R.id.colabs_coworking)
-        colonyCoworkingSpace = findViewById(R.id.colony_coworking_space)
-        commonGround = findViewById(R.id.common_ground)
-        headSpace = findViewById(R.id.head_space)
-        hourLoft = findViewById(R.id.hour_loft)
-        komuneLiving = findViewById(R.id.komune_living)
+        recyclerView = findViewById(R.id.main_list)
+        debug = findViewById(R.id.debug)
 
-        colabsCoworking.setOnClickListener{
-            redirectToBookingPage(1)
-        }
+        placeList = readPlaceFromJson()
+        debug.text = placeList[2].name
+
+        recyclerView.adapter = PlaceAdapter(placeList, this)
+        recyclerView.layoutManager = LinearLayoutManager(this)
+
     }
 
-    private fun redirectToBookingPage(id : Int) {
+    private fun redirectToBookingPage(index : Int) {
         val intent = Intent(this, booking_page::class.java)
-        intent.putExtra("id", id)
+        intent.putExtra("index", index)
         startActivity(intent)
     }
+
+    private fun readPlaceFromJson(): ArrayList<Place> {
+        val jsonString = applicationContext.assets.open("place_details.json").bufferedReader().use { it.readText() }
+        return Gson().fromJson(jsonString, Array<Place>::class.java).toList() as ArrayList<Place>
+    }
+
+
 
 }
