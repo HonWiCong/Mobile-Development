@@ -1,0 +1,358 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/protein_"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/logo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:srcCompat="@drawable/salad_bowl3"
+            android:contentDescription="@string/logo" />
+
+        <LinearLayout
+            android:id="@+id/green_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/textView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/choose_the_greens"
+                android:textColor="@color/black"
+                android:textStyle="bold" />
+
+            <View
+                android:id="@+id/view"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginStart="8dp"
+                android:background="#998B8B" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/vegatable_options"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:baselineAligned="false"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:id="@+id/iceberg_lettuce_image"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    app:srcCompat="@drawable/iceberg_lettuce" />
+
+                <TextView
+                    android:id="@+id/textView2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/iceberg_lettuce"
+                    android:textColor="@color/black" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center_horizontal"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:id="@+id/coral_lettuce_image"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    app:srcCompat="@drawable/coral_lettuce" />
+
+                <TextView
+                    android:id="@+id/textView3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/coral_lettuce"
+                    android:textColor="@color/black" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center_horizontal"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:id="@+id/romaine_lettuce_image"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    app:srcCompat="@drawable/romaine_lettuce" />
+
+                <TextView
+                    android:id="@+id/textView4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/romaine_lettuce"
+                    android:textColor="@color/black" />
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/protein_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/textView6"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/the_proteins"
+                android:textColor="@color/black"
+                android:textStyle="bold" />
+
+            <View
+                android:id="@+id/view3"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginStart="8dp"
+                android:layout_weight="1"
+                android:background="#998B8B" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/protein_first_row"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:orientation="horizontal">
+
+            <CheckBox
+                android:id="@+id/chicken_checkbox"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:text="@string/chicken" />
+
+            <CheckBox
+                android:id="@+id/salmon_checkbox"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:text="@string/salmon" />
+
+            <CheckBox
+                android:id="@+id/bacon_checkbox"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:text="@string/bacon" />
+
+            <CheckBox
+                android:id="@+id/turkey_checkbox"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:text="@string/turkey" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/protein_second_row"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:orientation="horizontal">
+
+            <CheckBox
+                android:id="@+id/egg_checkbox"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:text="@string/egg" />
+
+            <CheckBox
+                android:id="@+id/smoked_duck_checkbox"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/smoked_duck" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/soft_crispy_title"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="8dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/soft_crispy_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/the_soft_crispy"
+                android:textColor="@color/black"
+                android:textStyle="bold" />
+
+            <View
+                android:id="@+id/soft_crispy_breakline"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginStart="8dp"
+                android:layout_weight="1"
+                android:background="#998B8B" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/soft_crispy_first_row"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:orientation="horizontal">
+
+            <CheckBox
+                android:id="@+id/tomato_checkbox"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:text="@string/tomato" />
+
+            <CheckBox
+                android:id="@+id/apple_checkbox"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:text="@string/apple" />
+
+            <CheckBox
+                android:id="@+id/potato_checkbox"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:text="@string/potato" />
+
+            <CheckBox
+                android:id="@+id/nuts_checkbox"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:text="@string/nuts" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/soft_crispy_second_row"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:orientation="horizontal">
+
+            <CheckBox
+                android:id="@+id/cheese_checkbox"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:text="@string/cheese" />
+
+            <CheckBox
+                android:id="@+id/avocado_checkbox"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:text="@string/avocado" />
+
+            <CheckBox
+                android:id="@+id/croutons_checkbox"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:text="@string/croutons" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/dressing_title"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/textView10"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/dressing"
+                android:textColor="@color/black"
+                android:textStyle="bold" />
+
+            <View
+                android:id="@+id/view5"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginStart="8dp"
+                android:background="#998B8B" />
+        </LinearLayout>
+
+        <RadioGroup
+            android:id="@+id/dressing_options"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+            <RadioButton
+                android:id="@+id/thousand_island_radio"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/thousand_island" />
+
+            <RadioButton
+                android:id="@+id/vinaigrette_radio"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="32dp"
+                android:text="@string/vinaigrette" />
+
+            <RadioButton
+                android:id="@+id/caesar_radio"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="32dp"
+                android:text="@string/caesar" />
+        </RadioGroup>
+
+
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/next_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="32dp"
+        android:backgroundTint="@color/green"
+        android:text="Next"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,0 +1,30 @@
+<resources>
+    <string name="app_name">Assignment 2 Task 2</string>
+    <string name="the_soft_crispy"><![CDATA[The Soft & Crispy]]></string>
+    <string name="logo">logo</string>
+    <string name="choose_the_greens">Choose the greens</string>
+    <string name="iceberg_lettuce">Iceberg Lettuce</string>
+    <string name="coral_lettuce">Coral Lettuce</string>
+    <string name="romaine_lettuce">Romaine Lettuce</string>
+    <string name="the_proteins">The Proteins</string>
+    <string name="chicken">Chicken</string>
+    <string name="salmon">Salmon</string>
+    <string name="bacon">Bacon</string>
+    <string name="turkey">Turkey</string>
+    <string name="egg">Egg</string>
+    <string name="smoked_duck">Smoked Duck</string>
+    <string name="tomato">Tomato</string>
+    <string name="apple">Apple</string>
+    <string name="potato">Potato</string>
+    <string name="nuts">Nuts</string>
+    <string name="cheese">Cheese</string>
+    <string name="avocado">Avocado</string>
+    <string name="croutons">Croutons</string>
+    <string name="dressing">Dressing</string>
+    <string name="thousand_island">Thousand Island</string>
+    <string name="vinaigrette">Vinaigrette</string>
+    <string name="caesar">Caesar</string>
+    <string name="your_order">Your Order</string>
+    <string name="total_price">Total Price</string>
+    <string name="clear_selection">Clear Selection</string>
+</resources>
