@@ -132,10 +132,9 @@ class order : AppCompatActivity() {
             totalValue += product.price
         }
 
-        totalValue += tipValue
         discountValueTextView.text = "RM $discount"
         tipValueTextView.text = "RM $tipValue"
-        totalValueTextView.text = "RM $totalValue"
+        totalValueTextView.text = "RM ${totalValue + tipValue}"
     }
 
     private fun clear() {
