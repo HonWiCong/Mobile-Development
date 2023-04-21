@@ -1,0 +1,253 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <TextView
+        android:id="@+id/laksa_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:text="@string/sarawak_laksa"
+        android:textColor="@color/black"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/laksa_picture"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:contentDescription="@string/sarawak_laksa"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/laksa_title"
+        app:srcCompat="@drawable/laksa2" />
+
+    <ImageView
+        android:id="@+id/calories_icon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="8dp"
+        android:contentDescription="@string/calories_picture"
+        app:layout_constraintEnd_toStartOf="@+id/calories_amount"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintHorizontal_chainStyle="packed"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/laksa_picture"
+        app:srcCompat="@drawable/calories2" />
+
+    <TextView
+        android:id="@+id/calories_amount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="32dp"
+        android:text="@string/calories_amount"
+        android:textColor="@color/black"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toStartOf="@id/carboydrate_icon"
+        app:layout_constraintStart_toEndOf="@+id/calories_icon"
+        app:layout_constraintTop_toBottomOf="@+id/laksa_picture" />
+
+    <ImageView
+        android:id="@+id/carboydrate_icon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:contentDescription="@string/carboydrate_icon"
+        android:visibility="visible"
+        app:layout_constraintEnd_toStartOf="@id/carbohydrate_amount"
+        app:layout_constraintHorizontal_chainStyle="packed"
+        app:layout_constraintStart_toEndOf="@id/calories_amount"
+        app:layout_constraintTop_toBottomOf="@+id/laksa_picture"
+        app:srcCompat="@drawable/carb" />
+
+    <TextView
+        android:id="@+id/carbohydrate_amount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="32dp"
+        android:text="@string/carbohydrate_amount"
+        android:textColor="@color/black"
+        android:textSize="16sp"
+        android:visibility="visible"
+        app:layout_constraintEnd_toStartOf="@id/fat_icon"
+        app:layout_constraintStart_toEndOf="@+id/carboydrate_icon"
+        app:layout_constraintTop_toBottomOf="@+id/laksa_picture"
+        tools:layout_constraintEnd_toStartOf="@id/fat_icon" />
+
+    <ImageView
+        android:id="@+id/fat_icon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:contentDescription="@string/fat_icon"
+        android:visibility="visible"
+        app:layout_constraintEnd_toStartOf="@+id/fat_amount"
+        app:layout_constraintHorizontal_chainStyle="packed"
+        app:layout_constraintStart_toEndOf="@+id/carbohydrate_amount"
+        app:layout_constraintTop_toBottomOf="@+id/laksa_picture"
+        app:srcCompat="@drawable/fat" />
+
+    <TextView
+        android:id="@+id/fat_amount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="16dp"
+        android:text="@string/fat_amount"
+        android:textColor="@color/black"
+        android:textSize="16sp"
+        android:visibility="visible"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/fat_icon"
+        app:layout_constraintTop_toBottomOf="@+id/laksa_picture" />
+
+    <ImageView
+        android:id="@+id/activities_icon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:contentDescription="@string/activity_icon"
+        app:layout_constraintEnd_toStartOf="@+id/activities_title"
+        app:layout_constraintHorizontal_chainStyle="packed"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/carbohydrate_amount"
+        app:srcCompat="@drawable/burn" />
+
+    <TextView
+        android:id="@+id/activities_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="16dp"
+        android:text="@string/activities_title"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/activities_icon"
+        app:layout_constraintTop_toBottomOf="@+id/carbohydrate_amount" />
+
+    <ImageView
+        android:id="@+id/bicycle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="8dp"
+        android:contentDescription="@string/bicycle_icon"
+        app:layout_constraintBottom_toTopOf="@+id/cycling_duration"
+        app:layout_constraintEnd_toEndOf="@+id/cycling_duration"
+        app:layout_constraintStart_toStartOf="@+id/cycling_duration"
+        app:layout_constraintTop_toBottomOf="@+id/activities_title"
+        app:layout_constraintVertical_chainStyle="packed"
+        app:srcCompat="@drawable/cycling" />
+
+    <TextView
+        android:id="@+id/cycling_duration"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/bicycle_duration"
+        android:textColor="@color/black"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/minutes_of_cycling"
+        app:layout_constraintEnd_toEndOf="@+id/minutes_of_cycling"
+        app:layout_constraintStart_toStartOf="@+id/minutes_of_cycling"
+        app:layout_constraintTop_toBottomOf="@+id/bicycle" />
+
+    <TextView
+        android:id="@+id/minutes_of_cycling"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/minutes_of_cycling"
+        android:textSize="12sp"
+        app:layout_constraintEnd_toStartOf="@+id/minutes_of_running"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/cycling_duration" />
+
+    <ImageView
+        android:id="@+id/running_icon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="8dp"
+        android:contentDescription="@string/running_icon"
+        app:layout_constraintBottom_toTopOf="@+id/running_duration"
+        app:layout_constraintEnd_toEndOf="@+id/running_duration"
+        app:layout_constraintStart_toEndOf="@+id/bicycle"
+        app:layout_constraintStart_toStartOf="@+id/running_duration"
+        app:layout_constraintTop_toBottomOf="@+id/activities_title"
+        app:layout_constraintVertical_chainStyle="packed"
+        app:srcCompat="@drawable/run" />
+
+    <TextView
+        android:id="@+id/running_duration"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/running_duration"
+        android:textColor="@color/black"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/minutes_of_running"
+        app:layout_constraintEnd_toEndOf="@+id/minutes_of_running"
+        app:layout_constraintStart_toEndOf="@+id/minutes_of_cycling"
+        app:layout_constraintStart_toStartOf="@+id/minutes_of_running"
+        app:layout_constraintTop_toBottomOf="@+id/running_icon" />
+
+    <TextView
+        android:id="@+id/minutes_of_running"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/minutes_of_running"
+        android:textSize="12sp"
+        app:layout_constraintEnd_toStartOf="@+id/hours_of_cleaning"
+        app:layout_constraintStart_toEndOf="@+id/minutes_of_cycling"
+        app:layout_constraintTop_toBottomOf="@+id/running_duration" />
+
+    <ImageView
+        android:id="@+id/cleaning_icon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintBottom_toTopOf="@+id/cleaning_duration"
+        app:layout_constraintEnd_toEndOf="@+id/cleaning_duration"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/running_icon"
+        app:layout_constraintStart_toStartOf="@+id/cleaning_duration"
+        app:layout_constraintTop_toBottomOf="@+id/activities_title"
+        app:layout_constraintVertical_chainStyle="packed"
+        app:srcCompat="@drawable/clean"
+        android:contentDescription="@string/cleaning_icon"/>
+
+    <TextView
+        android:id="@+id/cleaning_duration"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/cleaning_duration"
+        android:textColor="@color/black"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/hours_of_cleaning"
+        app:layout_constraintEnd_toEndOf="@+id/hours_of_cleaning"
+        app:layout_constraintStart_toStartOf="@+id/hours_of_cleaning"
+        app:layout_constraintTop_toBottomOf="@+id/cleaning_icon" />
+
+    <TextView
+        android:id="@+id/hours_of_cleaning"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/hours_of_cleaning"
+        android:textSize="12sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/minutes_of_running"
+        app:layout_constraintTop_toBottomOf="@+id/cleaning_duration" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

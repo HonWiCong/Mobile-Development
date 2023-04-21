@@ -1,0 +1,21 @@
+<resources>
+    <string name="app_name">Task 2.2</string>
+    <string name="sarawak_laksa">Sarawak Laksa</string>
+    <string name="calories_picture">calories_picture</string>
+    <string name="calories_amount">350 cal</string>
+    <string name="carboydrate_icon">carboydrate_icon</string>
+    <string name="carbohydrate_amount">40g Carbs</string>
+    <string name="fat_icon">fat_icon</string>
+    <string name="fat_amount">12g Fat</string>
+    <string name="activity_icon">activity_icon</string>
+    <string name="activities_title">Activities needed to burn</string>
+    <string name="bicycle_icon">bicycle_icon</string>
+    <string name="bicycle_duration">53</string>
+    <string name="minutes_of_cycling">Minutes of Cycling</string>
+    <string name="running_icon">running_icon</string>
+    <string name="running_duration">35</string>
+    <string name="minutes_of_running">Minutes of Running</string>
+    <string name="cleaning_icon">cleaning_icon</string>
+    <string name="cleaning_duration">2.1</string>
+    <string name="hours_of_cleaning">Hours of Cleaning</string>
+</resources>

@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">Assignment 2 Task 1</string>
+    <string name="player_1">Player 1</string>
+    <string name="score_0">Score: 0</string>
+    <string name="player_2">Player 2</string>
+    <string name="number_thrown">Number thrown:</string>
+    <string name="roll">Roll</string>
+    <string name="player_1_right_dice">player_1_right_dice</string>
+    <string name="player_1_left_dice">player_1_left_dice</string>
+    <string name="player_2_left_dice">player_2_left_dice</string>
+    <string name="player_2_right_dice">player_2_right_dice</string>
+</resources>

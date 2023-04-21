@@ -1,0 +1,21 @@
+<resources>
+    <string name="app_name">My Application</string>
+    <string name="sarawak_laksa">Sarawak Laksa</string>
+    <string name="_350_cal">350 cal</string>
+    <string name="_12g_fat">12g Fat</string>
+    <string name="_40_carbs">40 Carbs</string>
+    <string name="activities_needed_to_burn">Activities needed to burn</string>
+    <string name="_53">53</string>
+    <string name="minutes_of_cycling">Minutes of Cycling</string>
+    <string name="_35">35</string>
+    <string name="minutes_of_running">Minutes of Running</string>
+    <string name="_2_1">2.1</string>
+    <string name="hours_of_cleaning">Hours of Cleaning</string>
+    <string name="fat">fat</string>
+    <string name="clean">clean</string>
+    <string name="run">run</string>
+    <string name="cycling">cycling</string>
+    <string name="carbohydrate">carbohydrate</string>
+    <string name="calories">calories</string>
+    <string name="burn">burn</string>
+</resources>
