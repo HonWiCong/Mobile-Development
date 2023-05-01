@@ -1,0 +1,39 @@
+Title:DOES NEWLY DISCOVERED PLANET POINT TO LIFE IN OUTER SPACE?
+Url:https://excorde.org/2023/does-newly-discovered-planet-point-to-life-in-outer-space
+Image:image1.png
+Category:Science
+Title:Scientists develop new material that can jump 200 times its thickness
+Image:image2.png
+Category:Science
+Url:https://interestingengineering.com/innovation/material-jump-200-times-its-thickness
+Url:https://videocardz.com/newz/geforce-rtx-3060-ti-gddr6x-is-faster-than-factory-overclocked-gddr6-model
+Title:GeForce RTX 3060 Ti GDDR6X is faster than factory overclocked GDDR6 model
+Image:image3.png
+Category:Technology
+Title:NVIDIA's New AI Makes Eye Contact On Video Calls So You Don't Have To
+Url:https://www.iflscience.com/nvidia-s-new-ai-makes-eye-contact-on-video-calls-so-you-don-t-have-to-67221
+Image:image4.png
+Category:Technology
+Image:image5.png
+Title:Humans still have the genes for a full coat of body hair
+Url:https://www.washingtonpost.com/science/2023/01/24/genes-evolution-hair/
+Category:Science
+Category:Science
+Title:Could salt hold the key to safe, efficient cooling and heating for homes in the future?
+Url:https://www.thestar.com.my/lifestyle/living/2023/01/23/could-salt-hold-the-key-to-safe-efficient-cooling-and-heating-for-homes-in-the-future
+Image:image6.png
+Title:Dad tracked mother of his child by hiding AirTag in her vehicle
+Url:https://www.thestar.com.my/tech/tech-news/2023/01/24/dad-tracked-mother-of-his-child-by-hiding-airtag-in-her-vehicle-texas-sheriff-says
+Image:image7.png
+Category:Technology
+Title:Climate crisis: We must listen to young voices
+Image:image8.png
+Url:https://www.thestar.com.my/lifestyle/living/2023/01/24/climate-crisis-we-must-listen-to-young-voices
+Category:Science
+Title:This online tool recognizes texts created by ChatGPT
+Url:https://www.thestar.com.my/tech/tech-news/2023/01/24/this-online-tool-recognizes-texts-created-by-chatgpt
+Image:image9.png
+Category:Technology
+
+
+
