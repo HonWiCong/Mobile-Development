@@ -25,7 +25,10 @@ class MainActivity : AppCompatActivity(), Communicator {
         val orderComplete = orderComplete()
         orderComplete.arguments = bundle
 
-        transaction.replace(R.id.main_screen_fragment, orderComplete).commit()
+        transaction
+            .replace(R.id.main_screen_fragment, orderComplete)
+            .addToBackStack(null)
+            .commit()
     }
 
 }

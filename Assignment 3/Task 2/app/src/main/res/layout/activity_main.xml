@@ -18,9 +18,7 @@
 
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/main_screen_fragment"
-        android:name="com.example.assignment2task2.orderComplete"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        tools:layout="@layout/fragment_menu" />
+        android:layout_height="wrap_content" />
 
 </LinearLayout>
