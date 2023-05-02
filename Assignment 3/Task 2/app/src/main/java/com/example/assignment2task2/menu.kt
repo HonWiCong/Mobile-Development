@@ -40,6 +40,9 @@ class menu : Fragment() {
     var selectedProductList = ArrayList<Product>()
     private lateinit var communicator: Communicator
 
+    // Next button
+    private lateinit var nextButton: Button
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
     }
@@ -78,7 +81,7 @@ class menu : Fragment() {
         val caesarRadio = view?.findViewById<RadioButton>(R.id.caesar_radio)
 
         // Next button
-        val nextButton = view?.findViewById<Button>(R.id.next_button)
+        nextButton = view.findViewById<Button>(R.id.next_button)
 
 
         // Attach on click listener
@@ -105,7 +108,7 @@ class menu : Fragment() {
         vinaigretteRadio?.setOnClickListener{ dressing("Vinaigrette") }
         caesarRadio?.setOnClickListener{ dressing("Caesar") }
         
-        nextButton?.setOnClickListener { next() }
+        nextButton.setOnClickListener { next() }
         communicator = activity as Communicator
 
         return view
@@ -128,6 +131,7 @@ class menu : Fragment() {
                 break
             }
         }
+        checkStatus()
     }
 
     private fun protein(checkBox: CheckBox, text: String) {
@@ -150,6 +154,7 @@ class menu : Fragment() {
 
             }
         }
+        checkStatus()
     }
 
     private fun sides(checkBox: CheckBox, text: String) {
@@ -171,6 +176,7 @@ class menu : Fragment() {
                 }
             }
         }
+        checkStatus()
     }
 
     private fun dressing(text: String) {
@@ -181,7 +187,13 @@ class menu : Fragment() {
                 break
             }
         }
+        checkStatus()
     }
 
+    private fun checkStatus() {
+        if (greenList.isNotEmpty() && proteinList.isNotEmpty() && sidesList.isNotEmpty() && dressingList.isNotEmpty()) {
+            nextButton.isEnabled = true
+        }
+    }
 
 }
