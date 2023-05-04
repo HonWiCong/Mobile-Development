@@ -13,6 +13,7 @@ import android.widget.ArrayAdapter
 import android.widget.GridView
 import android.widget.ImageView
 import android.widget.Spinner
+import android.widget.TextView
 import com.bumptech.glide.Glide
 import com.example.myapplication.adapter.GridImageAdapter
 import com.google.android.gms.tasks.Task
@@ -28,6 +29,7 @@ class MainActivity : AppCompatActivity() {
     private var selectedOptions = ""
     val storageRef = Firebase.storage.reference
     val self = this
+    val urlList = ArrayList<Uri>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,6 +39,40 @@ class MainActivity : AppCompatActivity() {
         val imageView = findViewById<ImageView>(R.id.imageView3)
         val gridView: GridView = findViewById(R.id.grid_view)
 
+        val imageRefs = listOf(
+            storageRef.child("/creativity/thumbnail"),
+            storageRef.child("/hygge/thumbnail"),
+            storageRef.child("/vintage/thumbnail")
+        )
+
+        val tasks = mutableListOf<Task<*>>()
+        for (ref in imageRefs) {
+            tasks.add(ref.listAll().addOnSuccessListener { results ->
+                results.items.forEach { item ->
+                    tasks.add(item.downloadUrl.addOnSuccessListener { url ->
+                        Log.d("URL", url.toString())
+                        urlList.add(url)
+                    }.addOnFailureListener { e ->
+                        Log.e("Error", "Failed to get download URL: ${e.message}")
+                    })
+                }
+            }.addOnFailureListener { e ->
+                Log.e("Error", "Failed to list items: ${e.message}")
+            })
+        }
+
+        Tasks.whenAllComplete(tasks).addOnCompleteListener {
+            gridView.adapter = GridImageAdapter(this, urlList)
+            if (urlList.isNotEmpty()) {
+                Glide.with(this)
+                    .load(urlList[0])
+                    .into(imageView)
+                var text = findViewById<TextView>(R.id.filter_label_text)
+                text.text = "this is stupid"
+            }
+        }
+
+
         val spinner = findViewById<Spinner>(R.id.spinner)
         val category = resources.getStringArray(R.array.category)
         if (spinner != null) {
@@ -44,61 +80,61 @@ class MainActivity : AppCompatActivity() {
             spinner.adapter = spinnerAdapter
         }
 
-        spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
-                when (position) {
-                    0 -> {
-                        selectedOptions = "all"
-                        val imageRefs = listOf(
-                            storageRef.child("/creativity/thumbnail"),
-                            storageRef.child("/hygge/thumbnail"),
-                            storageRef.child("/vintage/thumbnail")
-                        )
-
-                        val urlList = ArrayList<Uri>()
-                        val tasks = mutableListOf<Task<*>>()
-                        for (ref in imageRefs) {
-                            tasks.add(ref.listAll().addOnSuccessListener { results ->
-                                results.items.forEach { item ->
-                                    tasks.add(item.downloadUrl.addOnSuccessListener { url ->
-                                        urlList.add(url)
-                                    })
-                                }
-                            }.addOnFailureListener { })
-                        }
-                        
-                        Tasks.whenAllComplete(tasks).addOnCompleteListener {
-                            gridView.adapter = GridImageAdapter(self, urlList)
-                            if (urlList.isNotEmpty()) {
-                                Glide.with(self)
-                                    .load(urlList[0])
-                                    .into(imageView)
-                            }
-                        }
-
-
-                    }
-
-                    1 -> {
-
-                    }
-
-                    2 -> {
-                        selectedOptions = "hygge"
-
-                    }
-
-                    3 -> {
-                        selectedOptions = "vintage"
-
-                    }
-                }
-            }
-
-            override fun onNothingSelected(parent: AdapterView<*>) {
-                // write code to perform some action
-            }
-        }
+//        spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+//            override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
+//                when (position) {
+//                    0 -> {
+//                        selectedOptions = "all"
+//                        val imageRefs = listOf(
+//                            storageRef.child("/creativity/thumbnail"),
+//                            storageRef.child("/hygge/thumbnail"),
+//                            storageRef.child("/vintage/thumbnail")
+//                        )
+//
+//                        val urlList = ArrayList<Uri>()
+//                        val tasks = mutableListOf<Task<*>>()
+//                        for (ref in imageRefs) {
+//                            tasks.add(ref.listAll().addOnSuccessListener { results ->
+//                                results.items.forEach { item ->
+//                                    tasks.add(item.downloadUrl.addOnSuccessListener { url ->
+//                                        urlList.add(url)
+//                                    })
+//                                }
+//                            }.addOnFailureListener { })
+//                        }
+//
+//                        Tasks.whenAllComplete(tasks).addOnCompleteListener {
+//                            gridView.adapter = GridImageAdapter(self, urlList)
+//                            if (urlList.isNotEmpty()) {
+//                                Glide.with(self)
+//                                    .load(urlList[0])
+//                                    .into(imageView)
+//                            }
+//                        }
+//
+//
+//                    }
+//
+//                    1 -> {
+//
+//                    }
+//
+//                    2 -> {
+//                        selectedOptions = "hygge"
+//
+//                    }
+//
+//                    3 -> {
+//                        selectedOptions = "vintage"
+//
+//                    }
+//                }
+//            }
+//
+//            override fun onNothingSelected(parent: AdapterView<*>) {
+//                // write code to perform some action
+//            }
+//        }
 
     }
 
