@@ -1,27 +1,28 @@
 package com.example.myapplication.adapter
 
 import android.content.Context
-import android.graphics.Bitmap
+import android.content.Intent
 import android.net.Uri
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.AbsListView
 import android.widget.BaseAdapter
 import android.widget.ImageView
+import androidx.core.content.ContextCompat.startActivity
 import com.bumptech.glide.Glide
+import com.example.myapplication.DetailActivity
+import com.example.myapplication.Image
 import com.example.myapplication.R
-import com.google.firebase.storage.FileDownloadTask
-import com.google.firebase.storage.StorageReference
 
-class GridImageAdapter(private val context: Context, private val images: ArrayList<Uri>) : BaseAdapter() {
+class GridImageAdapter(private val context: Context, private val imageList: ArrayList<Image>) : BaseAdapter() {
 
     override fun getCount(): Int {
-        return images.size
+        return imageList.size
     }
 
     override fun getItem(position: Int): Any {
-        return images[position]
+        return imageList[position]
     }
 
     override fun getItemId(position: Int): Long {
@@ -41,14 +42,30 @@ class GridImageAdapter(private val context: Context, private val images: ArrayLi
             viewHolder = view.tag as ViewHolder
         }
 
-        Glide.with(context)
-            .load(images[position])
-            .into(viewHolder.image)
+        try {
+            Glide.with(context)
+                .load(imageList[position].thumbnail)
+                .fitCenter()
+                .centerCrop()
+                .placeholder(R.drawable.border)
+                .override(350, 350)
+                .into(viewHolder.image);
+
+            viewHolder.image.setOnClickListener {
+                val intent = Intent(context, DetailActivity::class.java).apply {
+                    putExtra("Image", imageList[position])
+                }
+                context.startActivity(intent)
+            }
+        } catch (error: Error) {
+            throw error
+        }
+
 
         return view
     }
 
     private class ViewHolder(view: View) {
-        val image: ImageView = view.findViewById(R.id.grid_item_image)
+        val image: ImageView = view.findViewById(R.id.grid_image)
     }
 }
