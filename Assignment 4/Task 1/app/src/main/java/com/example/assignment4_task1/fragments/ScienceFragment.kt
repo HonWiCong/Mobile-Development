@@ -81,11 +81,8 @@ class ScienceFragment : Fragment() {
                 counter = 0
                 currentNews = News("", "", "", "")
             }
-
         }
 
         return newsList
     }
-
-
 }

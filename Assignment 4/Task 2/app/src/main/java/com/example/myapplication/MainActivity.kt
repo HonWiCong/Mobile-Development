@@ -82,33 +82,6 @@ class MainActivity : AppCompatActivity() {
                 // write code to perform some action
             }
         }
-
-    }
-
-    private fun getAllThumbnailsURL() : ArrayList<String> {
-        var storageRef = FirebaseStorage.getInstance().reference
-        val thumbnailRef = storageRef.child("thumbnail")
-        val imageList = ArrayList<String>()
-
-        thumbnailRef.listAll().addOnSuccessListener { listResult ->
-            listResult.prefixes.forEach { folderRef ->
-                val imagesRef = folderRef.child("thumbnail")
-
-                imagesRef.listAll().addOnSuccessListener { listResult ->
-                    listResult.items.forEach { item ->
-                        item.downloadUrl.addOnSuccessListener { uri ->
-                            imageList.add(uri.toString())
-                        }
-                    }
-                }.addOnFailureListener { exception ->
-                    Log.e(TAG, "Error getting images from Firebase Storage: ${exception.message}")
-                }
-            }
-        }.addOnFailureListener { exception ->
-            Log.e(TAG, "Error getting subfolders from Firebase Storage: ${exception.message}")
-        }
-
-        return imageList
     }
 
     private fun getAllImage() {
