@@ -1,15 +1,14 @@
 plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
-    id 'com.google.gms.google-services'
 }
 
 android {
-    namespace 'com.example.myapplication'
+    namespace 'com.example.assignment5task1'
     compileSdk 33
 
     defaultConfig {
-        applicationId "com.example.myapplication"
+        applicationId "com.example.assignment5task1"
         minSdk 24
         targetSdk 33
         versionCode 1
@@ -32,19 +31,13 @@ android {
         jvmTarget = '1.8'
     }
 }
-apply plugin: 'kotlin-kapt'
-dependencies {
-    implementation 'com.github.bumptech.glide:glide:4.15.1'
-    kapt 'com.github.bumptech.glide:compiler:4.15.1'
-    implementation 'com.google.firebase:firebase-storage:20.2.0'
-    implementation 'com.firebaseui:firebase-ui-storage:8.0.2'
 
+dependencies {
 
     implementation 'androidx.core:core-ktx:1.7.0'
     implementation 'androidx.appcompat:appcompat:1.6.1'
     implementation 'com.google.android.material:material:1.8.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
-    implementation 'com.google.firebase:firebase-storage-ktx:20.2.0'
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'

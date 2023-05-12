@@ -1,8 +1,6 @@
 package com.example.myapplication
 
 import android.content.ContentValues.TAG
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -11,67 +9,24 @@ import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.GridView
-import android.widget.ImageView
 import android.widget.Spinner
-import android.widget.TextView
-import com.bumptech.glide.Glide
 import com.example.myapplication.adapter.GridImageAdapter
-import com.google.android.gms.tasks.Task
-import com.google.android.gms.tasks.Tasks
 import com.google.firebase.ktx.Firebase
-import com.google.firebase.storage.FileDownloadTask
 import com.google.firebase.storage.FirebaseStorage
-import com.google.firebase.storage.StorageReference
 import com.google.firebase.storage.ktx.storage
-import java.io.File
 
 class MainActivity : AppCompatActivity() {
-    private var selectedOptions = ""
-    val storageRef = Firebase.storage.reference
+    private val storageRef = Firebase.storage.reference
     val self = this
-    val urlList = ArrayList<Uri>()
+    private val ImageList = ArrayList<Image>()
+    private lateinit var gridView: GridView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         supportActionBar?.title = "Photo Album"
 
-        val imageView = findViewById<ImageView>(R.id.imageView3)
-        val gridView: GridView = findViewById(R.id.grid_view)
-
-        val imageRefs = listOf(
-            storageRef.child("/creativity/thumbnail"),
-            storageRef.child("/hygge/thumbnail"),
-            storageRef.child("/vintage/thumbnail")
-        )
-
-        val tasks = mutableListOf<Task<*>>()
-        for (ref in imageRefs) {
-            tasks.add(ref.listAll().addOnSuccessListener { results ->
-                results.items.forEach { item ->
-                    tasks.add(item.downloadUrl.addOnSuccessListener { url ->
-                        Log.d("URL", url.toString())
-                        urlList.add(url)
-                    }.addOnFailureListener { e ->
-                        Log.e("Error", "Failed to get download URL: ${e.message}")
-                    })
-                }
-            }.addOnFailureListener { e ->
-                Log.e("Error", "Failed to list items: ${e.message}")
-            })
-        }
-
-        Tasks.whenAllComplete(tasks).addOnCompleteListener {
-            gridView.adapter = GridImageAdapter(this, urlList)
-            if (urlList.isNotEmpty()) {
-                Glide.with(this)
-                    .load(urlList[0])
-                    .into(imageView)
-                var text = findViewById<TextView>(R.id.filter_label_text)
-                text.text = "this is stupid"
-            }
-        }
-
+        gridView= findViewById(R.id.grid_view)
 
         val spinner = findViewById<Spinner>(R.id.spinner)
         val category = resources.getStringArray(R.array.category)
@@ -79,89 +34,101 @@ class MainActivity : AppCompatActivity() {
             val spinnerAdapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, category)
             spinner.adapter = spinnerAdapter
         }
+        getAllImage()
 
-//        spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-//            override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
-//                when (position) {
-//                    0 -> {
-//                        selectedOptions = "all"
-//                        val imageRefs = listOf(
-//                            storageRef.child("/creativity/thumbnail"),
-//                            storageRef.child("/hygge/thumbnail"),
-//                            storageRef.child("/vintage/thumbnail")
-//                        )
-//
-//                        val urlList = ArrayList<Uri>()
-//                        val tasks = mutableListOf<Task<*>>()
-//                        for (ref in imageRefs) {
-//                            tasks.add(ref.listAll().addOnSuccessListener { results ->
-//                                results.items.forEach { item ->
-//                                    tasks.add(item.downloadUrl.addOnSuccessListener { url ->
-//                                        urlList.add(url)
-//                                    })
-//                                }
-//                            }.addOnFailureListener { })
-//                        }
-//
-//                        Tasks.whenAllComplete(tasks).addOnCompleteListener {
-//                            gridView.adapter = GridImageAdapter(self, urlList)
-//                            if (urlList.isNotEmpty()) {
-//                                Glide.with(self)
-//                                    .load(urlList[0])
-//                                    .into(imageView)
-//                            }
-//                        }
-//
-//
-//                    }
-//
-//                    1 -> {
-//
-//                    }
-//
-//                    2 -> {
-//                        selectedOptions = "hygge"
-//
-//                    }
-//
-//                    3 -> {
-//                        selectedOptions = "vintage"
-//
-//                    }
-//                }
-//            }
-//
-//            override fun onNothingSelected(parent: AdapterView<*>) {
-//                // write code to perform some action
-//            }
-//        }
-
-    }
-
-    private fun getAllThumbnailsURL() : ArrayList<String> {
-        var storageRef = FirebaseStorage.getInstance().reference
-        val thumbnailRef = storageRef.child("thumbnail")
-        val imageList = ArrayList<String>()
-
-        thumbnailRef.listAll().addOnSuccessListener { listResult ->
-            listResult.prefixes.forEach { folderRef ->
-                val imagesRef = folderRef.child("thumbnail")
-
-                imagesRef.listAll().addOnSuccessListener { listResult ->
-                    listResult.items.forEach { item ->
-                        item.downloadUrl.addOnSuccessListener { uri ->
-                            imageList.add(uri.toString())
-                        }
+        spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
+                when (position) {
+                    0 -> {
+                        gridView.adapter = GridImageAdapter(self, ImageList)
                     }
-                }.addOnFailureListener { exception ->
-                    Log.e(TAG, "Error getting images from Firebase Storage: ${exception.message}")
+
+                    1 -> {
+                        val tempList = ArrayList<Image>()
+                        for (image in ImageList) {
+                            if (image.category == "creativity") {
+                                tempList.add(image)
+                            }
+                        }
+
+                        gridView.adapter = GridImageAdapter(self, tempList)
+                    }
+
+                    2 -> {
+                        val tempList = ArrayList<Image>()
+                        for (image in ImageList) {
+                            if (image.category == "hygge") {
+                                tempList.add(image)
+                            }
+                        }
+
+                        gridView.adapter = GridImageAdapter(self, tempList)
+                    }
+
+                    3 -> {
+                        val tempList = ArrayList<Image>()
+                        for (image in ImageList) {
+                            if (image.category == "vintage") {
+                                tempList.add(image)
+                            }
+                        }
+
+                        gridView.adapter = GridImageAdapter(self, tempList)
+                    }
                 }
             }
-        }.addOnFailureListener { exception ->
-            Log.e(TAG, "Error getting subfolders from Firebase Storage: ${exception.message}")
+
+            override fun onNothingSelected(parent: AdapterView<*>) {
+                // write code to perform some action
+            }
+        }
+    }
+
+    private fun getAllImage() {
+        val folderPath = listOf(
+            "creativity",
+            "hygge",
+            "vintage",
+        )
+        val thumbnailUrls = HashMap<String, Uri>()
+        val imageUrls = HashMap<String, Uri>()
+
+        for (path in folderPath) {
+            storageRef.child("/$path/thumbnail").listAll().addOnSuccessListener { results ->
+                results.items.forEach { item ->
+                    item.downloadUrl.addOnSuccessListener{ thumbnail_url ->
+                        val photographerName = item.name
+                            .substringBeforeLast("_thumb.jpg")
+                            .replace("_", " ")
+                            .split(" ")
+                            .joinToString(" ") { it.capitalize() }
+
+                        ImageList.add(Image(thumbnail_url, null, photographerName, path))
+                    }.addOnFailureListener { e -> Log.e("Error", "Failed to get thumbnail URL: ${e.message}") }
+                }
+            }.addOnFailureListener { e -> Log.e("Error", "Failed to list items: ${e.message}") }
+
+            storageRef.child("$path/cover").listAll().addOnSuccessListener { results ->
+                results.items.forEach { item ->
+                    item.downloadUrl.addOnSuccessListener { image_url ->
+                        val photographerName = item.name
+                            .substringBeforeLast(".jpg")
+                            .replace("_", " ")
+                            .split(" ")
+                            .joinToString(" ") { it.capitalize() }
+
+                        for (image in ImageList) {
+                            if (image.image == null && image.photographer == photographerName) {
+                                image.image = image_url
+                                gridView.adapter = GridImageAdapter(this, ImageList)
+                            }
+                        }
+                    }.addOnFailureListener { e -> Log.e("Error", "Failed to get cover URL: ${e.message}") }
+                }
+            }.addOnFailureListener { e -> Log.e("Error", "Failed to list items: ${e.message}") }
+
         }
 
-        return imageList
     }
 }
 
