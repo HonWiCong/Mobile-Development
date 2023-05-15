@@ -1,22 +1,19 @@
 package com.example.assignment5task1.fragments
 
+import android.content.ContentValues
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.assignment5task1.R
+import com.example.assignment5task1.Task
+import com.example.assignment5task1.adapter.TaskListRecycleAdapter
+import com.google.firebase.firestore.FirebaseFirestore
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
-
-/**
- * A simple [Fragment] subclass.
- * Use the [CompletedFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class CompletedFragment : Fragment() {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
@@ -24,37 +21,51 @@ class CompletedFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
     }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_completed, container, false)
-    }
+        val view = inflater.inflate(R.layout.fragment_completed, container, false)
+        val taskListRecyclerView = view.findViewById<RecyclerView>(R.id.task_list_small)
+        taskListRecyclerView.layoutManager = LinearLayoutManager(requireContext())
+        val taskList = ArrayList<Task>()
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment CompletedFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            CompletedFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
+        val db = FirebaseFirestore.getInstance()
+        db.collection("tasks")
+            .get()
+            .addOnSuccessListener {
+                var index = 0
+                if (!it.isEmpty) {
+                    for (data in it.documents) {
+                        val id = it.documents[index].id
+                        val task = data.get("task").toString()
+                        val description = data.get("description").toString()
+                        val date = data.get("date").toString()
+                        val priority = data.get("priority").toString()
+                        val status = data.get("status").toString()
+                        val completedDate = data.get("completedDate").toString()
+                        taskList.add(
+                            Task(
+                                id,
+                                task as String?,
+                                description as String?,
+                                date as String?,
+                                priority as String?,
+                                status as String?,
+                                completedDate as String?
+                            )
+                        )
+                        index++
+                    }
                 }
+                taskListRecyclerView.adapter = TaskListRecycleAdapter(taskList, requireActivity(), "complete")
             }
+            .addOnFailureListener { exception ->
+                Log.d(ContentValues.TAG, "Error getting documents: ", exception)
+            }
+
+        return view
     }
 }
