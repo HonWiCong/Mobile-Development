@@ -107,7 +107,8 @@ class menu : Fragment() {
         thousandIslandRadio?.setOnClickListener{ dressing("Thousand Island") }
         vinaigretteRadio?.setOnClickListener{ dressing("Vinaigrette") }
         caesarRadio?.setOnClickListener{ dressing("Caesar") }
-        
+
+        checkStatus()
         nextButton.setOnClickListener { next() }
         communicator = activity as Communicator
 
@@ -115,6 +116,7 @@ class menu : Fragment() {
     }
 
     private fun next() {
+        selectedProductList.clear()
         selectedProductList.addAll(greenList)
         selectedProductList.addAll(proteinList)
         selectedProductList.addAll(sidesList)
@@ -135,6 +137,7 @@ class menu : Fragment() {
     }
 
     private fun protein(checkBox: CheckBox, text: String) {
+        proteinList.clear()
         when (checkBox.isChecked) {
             true -> {
                 for (product in product_list) {
@@ -158,10 +161,11 @@ class menu : Fragment() {
     }
 
     private fun sides(checkBox: CheckBox, text: String) {
+        sidesList.clear()
         when (checkBox.isChecked) {
             true -> {
                 for (product in product_list) {
-                    if (product.name?.contains(text) == true) {
+                    if (product.name.contains(text)) {
                         sidesList.add(product)
                         break
                     }
@@ -169,7 +173,7 @@ class menu : Fragment() {
             }
             else -> {
                 for (product in product_list) {
-                    if (product.name?.contains(text) == true) {
+                    if (product.name.contains(text)) {
                         sidesList.remove(product)
                         break
                     }
