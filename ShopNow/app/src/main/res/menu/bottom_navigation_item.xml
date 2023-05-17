@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:id="@+id/bottom_navigation_home"
+        android:title="For you"
+        android:icon="@drawable/baseline_home_24" />
+
+    <item android:id="@+id/bottom_navigation_cart"
+        android:title="In Progress"
+        android:icon="@drawable/baseline_shopping_cart_24" />
+
+    <item android:id="@+id/bottom_navigation_account"
+        android:title="Account"
+        android:icon="@drawable/baseline_person_24" />
+</menu>

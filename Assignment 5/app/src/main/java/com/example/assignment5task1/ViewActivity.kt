@@ -56,8 +56,5 @@ class ViewActivity : AppCompatActivity() {
                 else -> false
             }
         }
-
-
-
     }
 }

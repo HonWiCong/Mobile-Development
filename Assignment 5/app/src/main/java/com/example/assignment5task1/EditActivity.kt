@@ -28,7 +28,6 @@ class EditActivity : AppCompatActivity(), DatePickerDialog.OnDateSetListener {
     private val dateFormat = SimpleDateFormat("dd-MM-yyyy")
     private val calendar = Calendar.getInstance()
 
-
     var id = ""
 
     var day = 0
