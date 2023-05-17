@@ -50,7 +50,6 @@ class BreakfastFragment : Fragment() {
                     i++
                 }
 
-                // Move the loop here, inside the API response callback
                 for (link in breakFastLinkList) {
                     Log.d("My Link: ", link!!)
                     val json = JsonObjectRequest(Request.Method.GET, link, null, { response ->

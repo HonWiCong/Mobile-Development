@@ -137,7 +137,6 @@ class menu : Fragment() {
     }
 
     private fun protein(checkBox: CheckBox, text: String) {
-        proteinList.clear()
         when (checkBox.isChecked) {
             true -> {
                 for (product in product_list) {
@@ -161,7 +160,6 @@ class menu : Fragment() {
     }
 
     private fun sides(checkBox: CheckBox, text: String) {
-        sidesList.clear()
         when (checkBox.isChecked) {
             true -> {
                 for (product in product_list) {
