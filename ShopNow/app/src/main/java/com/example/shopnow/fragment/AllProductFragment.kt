@@ -5,56 +5,41 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.example.shopnow.R
+import com.example.shopnow.adapter.ProductRecyclerViewAdapter
+import com.example.shopnow.data_class.Product
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
-
-/**
- * A simple [Fragment] subclass.
- * Use the [AllProductFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class AllProductFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
     }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_all_product, container, false)
-    }
+        val view = inflater.inflate(R.layout.fragment_all_product, container, false)
+        val recyclerView = view.findViewById<RecyclerView>(R.id.all_product_list)
+        recyclerView.layoutManager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
+        recyclerView.setHasFixedSize(false)
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment AllProductFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            AllProductFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
-            }
+        val products = listOf(
+            Product("Product 1", 10.99, "https://akidoo.top/images/covers/eroriman-2-cv1.png", "4.5", "Lorem ipsum dolor sit amet.", "Seller 1", "https://akidoo.top/images/covers/eroriman-2-cv1.png", "Food"),
+            Product("Product 2", 19.99, "https://git-covers.pages.dev/images/daraku-reijou-the-animation-1.jpg", "4.2", "Consectetur adipiscing elit.", "Seller 2", "https://git-covers.pages.dev/images/daraku-reijou-the-animation-1.jpg", "Food"),
+            Product("Product 3", 8.49, "https://cdn.statically.io/img/akidoo.top/f=auto,q=100/images/covers/doukyuusei-remake-1-cv1.png", "3.9", "Nulla nec feugiat ante.", "Seller 3", "https://cdn.statically.io/img/akidoo.top/f=auto,q=100/images/covers/doukyuusei-remake-1-cv1.png", "Food"),
+            Product("Product 4", 14.95, "https://ba.alphafish.top/images/covers/eroge-de-subete-wa-kaiketsu-dekiru-1-cv1.png", "4.7", "Sed vel arcu eget arcu.", "Seller 4", "https://ba.alphafish.top/images/covers/eroge-de-subete-wa-kaiketsu-dekiru-1-cv1.png", "Technology"),
+            Product("Product 5", 5.99, "https://akidoo.top/images/covers/eroriman-1-cv1.png", "4.0", "Fusce nec fermentum purus.", "Seller 5", "https://akidoo.top/images/covers/eroriman-1-cv1.png", "Technology"),
+            Product("Product 6", 12.50, "https://git-covers.pages.dev/images/gakuen-de-jikan-yo-tomare-1.jpg", "4.3", "Vestibulum tincidunt auctor nunc.", "Seller 6", "https://git-covers.pages.dev/images/gakuen-de-jikan-yo-tomare-1.jpg", "Technology"),
+            Product("Product 7", 9.99, "https://git-covers.pages.dev/images/gakuen-de-jikan-yo-tomare-2.jpg", "4.1", "Morbi sed est lobortis.", "Seller 7", "https://git-covers.pages.dev/images/gakuen-de-jikan-yo-tomare-2.jpg", "Daily"),
+            Product("Product 8", 17.99, "https://git-covers.pages.dev/images/gakuen-de-jikan-yo-tomare-3.jpg", "4.6", "Donec consequat mi ut nisl.", "Seller 8", "https://git-covers.pages.dev/images/gakuen-de-jikan-yo-tomare-3.jpg", "Daily"),
+            Product("Product 9", 6.75, "https://git-covers.pages.dev/images/gakuen-de-jikan-yo-tomare-4.jpg", "3.8", "Pellentesque ac arcu cursus.", "Seller 9", "https://git-covers.pages.dev/images/gakuen-de-jikan-yo-tomare-4.jpg", "Daily"),
+            Product("Product 10", 11.49, "https://cdn.statically.io/img/akidoo.top/f=auto,q=100/images/covers/sei-dorei-gakuen-2-ep-2-cv1.png", "4.4", "Quisque eget sem aliquam.", "Seller 10", "https://cdn.statically.io/img/akidoo.top/f=auto,q=100/images/covers/sei-dorei-gakuen-2-ep-2-cv1.png", "Daily")
+        )
+
+        recyclerView.adapter = ProductRecyclerViewAdapter(products, view.context)
+
+        return view
     }
 }

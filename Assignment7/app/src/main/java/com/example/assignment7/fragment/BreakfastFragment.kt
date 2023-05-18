@@ -43,15 +43,11 @@ class BreakfastFragment : Fragment() {
                 while (i < 8) {
                     val link = Gson().fromJson(response.toString(), Link::class.java).hits[i].Links?.self?.href
                     breakFastLinkList.add(link)
-                    if (breakFastLinkList.isEmpty()) {
-                        Log.d("link: ", "The List is empty")
-                    }
 
                     i++
                 }
 
                 for (link in breakFastLinkList) {
-                    Log.d("My Link: ", link!!)
                     val json = JsonObjectRequest(Request.Method.GET, link, null, { response ->
                         try {
                             val recipe = response.getString("recipe")
@@ -87,9 +83,9 @@ class BreakfastFragment : Fragment() {
                 Log.d("vol",response.toString())
             }
         },
-            { error ->
-                Log.d("vol", error.toString())
-            })
+        { error ->
+            Log.d("vol", error.toString())
+        })
 
         Volley.newRequestQueue(context).add(jsonObjectRequest)
 
