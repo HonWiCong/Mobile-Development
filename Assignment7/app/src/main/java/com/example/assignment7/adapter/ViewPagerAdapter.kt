@@ -20,7 +20,5 @@ class ViewPagerAdapter(fragmentManager: FragmentManager, lifecycle: Lifecycle) :
             2-> { DinnerFragment() }
             else -> { BreakfastFragment() }
         }
-
     }
-
 }

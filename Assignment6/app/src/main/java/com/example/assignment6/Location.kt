@@ -11,5 +11,4 @@ data class Location(
     @ColumnInfo(name = "latitude") val latitude: Double,
     @ColumnInfo(name = "address") val address: String,
     @ColumnInfo(name = "image") val image: String,
-
 )

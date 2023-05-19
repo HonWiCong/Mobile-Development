@@ -7,23 +7,25 @@ import androidx.fragment.app.Fragment
 import com.example.shopnowseller.R
 import com.example.shopnowseller.fragment.AddFragment
 import com.example.shopnowseller.fragment.AllFragment
-import com.example.shopnowseller.fragment.UnactiveFragment
+import com.example.shopnowseller.fragment.InactiveFragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.auth.FirebaseAuth
 
 class MainActivity : AppCompatActivity() {
-    val firebaseAuth = FirebaseAuth.getInstance()
+    private val firebaseAuth = FirebaseAuth.getInstance()
+    private val currentUser = firebaseAuth.currentUser
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+//        firebaseAuth.signOut()
 
-//        checkSignIn()
+        loadFragment(AllFragment())
+        checkSignIn()
         navigationAction()
     }
 
     private fun checkSignIn() {
-        val currentUser = firebaseAuth.currentUser
         if (currentUser == null) {
             val intent = Intent(this, LoginActivity::class.java)
             startActivity(intent)
@@ -43,7 +45,7 @@ class MainActivity : AppCompatActivity() {
                 }
 
                 R.id.bottom_navigation_unactive -> {
-                    loadFragment(UnactiveFragment())
+                    loadFragment(InactiveFragment())
                 }
             }
         }
