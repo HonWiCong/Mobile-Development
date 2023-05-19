@@ -1,18 +1,23 @@
 package com.example.assignment6
 
 import android.Manifest
+import android.app.Activity
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.location.Geocoder
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.os.Bundle
+import android.os.Environment
 import android.provider.MediaStore
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import com.android.volley.Request
 import com.android.volley.toolbox.JsonObjectRequest
 import com.android.volley.toolbox.Volley
@@ -25,92 +30,183 @@ import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import com.google.android.material.floatingactionbutton.FloatingActionButton
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.tasks.await
+import kotlinx.coroutines.*
+import org.json.JSONObject
+import java.io.File
+import java.io.FileOutputStream
+import java.text.SimpleDateFormat
 import java.util.*
-
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class ViewMapFragment : Fragment(), OnMapReadyCallback {
     private lateinit var mapView: MapView
     private lateinit var locationText : TextView
     private lateinit var floatingActionButton : FloatingActionButton
     private lateinit var fusedLocationClient : FusedLocationProviderClient
-    
-    var latitude = 0.00
-    var longitude = 0.00
+    private lateinit var locationDB : LocationDatabase
+    private lateinit var locationImage : ImageView
+
+    var latitude : Double? = null
+    var longitude : Double? = null
     val key = "65afe04d18ae4fa8aeed2ade0ca9f6e3"
+
+    companion object {
+        private const val REQUEST_IMAGE_CAPTURE = 1
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_view_map, container, false)
+        locationDB = LocationDatabase.getDatabase(requireContext())
+
         locationText = view.findViewById(R.id.location_text)
+        locationImage = view.findViewById(R.id.location_image)
+
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireActivity())
         floatingActionButton = view.findViewById(R.id.floatingActionButton)
         mapView = view.findViewById(R.id.mapView)
 
         mapView.getMapAsync(this)
         mapView.onCreate(savedInstanceState)
-        cameraButton()
+
+        floatingActionButton.setOnClickListener {
+            val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+            startActivityForResult(intent, REQUEST_IMAGE_CAPTURE)
+        }
+
         return view
     }
 
     override fun onMapReady(googleMap: GoogleMap) {
-        latitude = 1.5083926480220609
-        longitude = 110.32589079583315
+        lifecycleScope.launch {
+            val locations = readLocation()
+            val uniqueLocations = locations.distinctBy { Pair(it.latitude, it.longitude) }
 
-        googleMap.addMarker(
-            MarkerOptions()
-                .position(LatLng(latitude, longitude))
-                .title("testing"))
+            if (uniqueLocations.isNotEmpty()) {
+                for (location in uniqueLocations) {
+                    googleMap.addMarker(
+                        MarkerOptions()
+                            .position(LatLng(location.latitude, location.longitude))
+                            .title(location.address)
+                    )
+                }
 
-        googleMap.moveCamera(CameraUpdateFactory.newLatLng(LatLng(latitude, longitude)))
+                if (latitude != null && longitude != null) {
+                    googleMap.moveCamera(CameraUpdateFactory.newLatLng(LatLng(latitude!!, longitude!!)))
+                }
 
-        googleMap.setOnMarkerClickListener {
-            val geocoder = Geocoder(requireContext(), Locale.getDefault())
-            val addresses = geocoder.getFromLocation(it.position.latitude, it.position.longitude, 1)
+                googleMap.setOnMarkerClickListener { marker ->
+                    for (location in locations) {
+                        if (location.address == marker.title) {
+                            locationText.text = location.address
+                            displayImage(location.image)
+                        }
+                    }
 
-            if (addresses?.isNotEmpty() == true) {
-                val address = addresses[0].getAddressLine(0)
-                val city = addresses[0].locality
-                val state = addresses[0].adminArea
-                val country = addresses[0].countryName
-                locationText.text = "$address, $city, $state, $country"
+                    true
+                }
             }
-
-            true
         }
     }
 
-    private fun cameraButton() {
-        floatingActionButton.setOnClickListener {
-            val intent = Intent()
-            intent.action = MediaStore.ACTION_IMAGE_CAPTURE
-            startActivity(intent)
 
-            geocodingApi()
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == Activity.RESULT_OK) {
+            val imageBitmap = data?.extras?.get("data") as Bitmap
+            val imagePath = saveImageToStorage(imageBitmap)
+
             getLocation()
+            viewLifecycleOwner.lifecycleScope.launch(Dispatchers.Main) {
+                try {
+                    val response = geocodingApi()
+
+                    val json = response.getJSONArray("results")
+                    val name = json.getJSONObject(0).getString("name")
+                    val housenumber = json.getJSONObject(0).getString("housenumber")
+                    val street = json.getJSONObject(0).getString("street")
+                    val city = json.getJSONObject(0).getString("city")
+                    val postcode = json.getJSONObject(0).getString("postcode")
+                    val state = json.getJSONObject(0).getString("state")
+                    val country = json.getJSONObject(0).getString("country")
+
+                    locationText.text = "$latitude, $longitude $name, $housenumber, $street, $country"
+
+                    val location = Location(
+                        null,
+                        latitude!!,
+                        longitude!!,
+                        "$name, $housenumber, $street, $country",
+                        imagePath
+                    )
+                    writeLocation(location)
+                } catch (e: Exception) {
+                    Log.d("vol", e.toString())
+                }
+            }
         }
     }
 
-    private fun geocodingApi() {
-        GlobalScope.launch(Dispatchers.Main) {
-            val url = "https://api.geoapify.com/v1/geocode/reverse?lat=$latitude&lon=$longitude&format=json&apiKey=$key"
-            val jsonObjectRequest = JsonObjectRequest(Request.Method.GET, url, null, { response ->
-//                    locationText.text = response.toString()
-            },
-                { error ->
-                    Log.d("vol", error.toString())
-                })
 
-            Volley.newRequestQueue(context).add(jsonObjectRequest)
+    private fun saveImageToStorage(bitmap: Bitmap): String {
+        val timeStamp = SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(Date())
+        val imageFileName = "IMG_$timeStamp.jpg"
+        val storageDir = requireContext().getExternalFilesDir(Environment.DIRECTORY_PICTURES)
+        val imageFile = File(storageDir, imageFileName)
+        val outputStream = FileOutputStream(imageFile)
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, outputStream)
+        outputStream.flush()
+        outputStream.close()
+        return imageFile.absolutePath
+    }
+
+    private fun displayImage(imagePath: String) {
+        val imageFile = File(imagePath)
+        if (imageFile.exists()) {
+            val bitmap = BitmapFactory.decodeFile(imagePath)
+            locationImage.setImageBitmap(bitmap)
+        }
+    }
+
+    private suspend fun geocodingApi(): JSONObject {
+        val url = "https://api.geoapify.com/v1/geocode/reverse?lat=$latitude&lon=$longitude&format=json&apiKey=$key"
+        return withContext(Dispatchers.IO) {
+            val queue = Volley.newRequestQueue(requireContext())
+            val responseDeferred = CompletableDeferred<JSONObject>()
+
+            val request = JsonObjectRequest(Request.Method.GET, url, null,
+                { response ->
+                    CoroutineScope(Dispatchers.Main).launch {
+                        responseDeferred.complete(response)
+                    }
+                },
+                { error ->
+                    CoroutineScope(Dispatchers.Main).launch {
+                        responseDeferred.completeExceptionally(error)
+                    }
+                }
+            )
+
+            queue.add(request)
+            responseDeferred.await()
+        }
+    }
+
+
+    private suspend fun writeLocation(location: Location) {
+        withContext(Dispatchers.IO) {
+            locationDB.locationDao().insert(location)
+        }
+    }
+
+    private suspend fun readLocation(): ArrayList<Location> {
+        return withContext(Dispatchers.IO) {
+            ArrayList(locationDB.locationDao().getAll())
         }
     }
 
@@ -125,9 +221,8 @@ class ViewMapFragment : Fragment(), OnMapReadyCallback {
         fusedLocationClient.lastLocation
             .addOnSuccessListener {
                 if (it != null) {
-                    val geocoder = Geocoder(requireContext(), Locale.getDefault())
-                    val list = geocoder.getFromLocation(it.latitude, it.longitude, 1)
-                    locationText.text = "${list?.get(0)?.latitude} ${list?.get(0)?.longitude}"
+                    latitude = it.latitude
+                    longitude = it.longitude
                 }
             }
     }

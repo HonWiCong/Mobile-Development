@@ -55,18 +55,6 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-    private fun writeLocation() {
-        GlobalScope.launch(Dispatchers.IO) {
-//            locationDB.locationDao().insert()
-        }
-    }
-
-    private fun readLocation() {
-        GlobalScope.launch(Dispatchers.IO) {
-            val locations = locationDB.locationDao().getAll()
-        }
-    }
-
     private fun loadFragment(fragment: Fragment) {
         val transaction = supportFragmentManager.beginTransaction()
         transaction.replace(R.id.fragment_container, fragment)

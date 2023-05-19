@@ -13,5 +13,4 @@ interface LocationDao {
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insert(location: Location)
 
-
 }
