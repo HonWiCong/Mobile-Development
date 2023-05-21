@@ -5,8 +5,10 @@
     android:layout_height="match_parent"
     tools:context=".fragment.TechnologyFragment">
 
+    <!-- TODO: Update blank fragment layout -->
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/technology_product_list"
+        android:id="@+id/technology_list"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
+
 </FrameLayout>

@@ -17,11 +17,11 @@ class HomepageViewPagerAdapter(fragmentManager: FragmentManager, lifecycle: Life
         val db = Firebase.firestore
 
         return when(position) {
-            0-> { AllProductFragment() }
+            0-> { AllFragment() }
             1-> { FoodFragment() }
             2-> { TechnologyFragment() }
             3-> { DailyFragment() }
-            else -> { AllProductFragment() }
+            else -> { AllFragment() }
         }
 
     }

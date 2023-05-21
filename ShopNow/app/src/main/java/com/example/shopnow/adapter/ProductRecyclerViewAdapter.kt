@@ -15,7 +15,7 @@ import com.example.shopnow.R
 import com.example.shopnow.activity.ProductDetailActivity
 import com.example.shopnow.data_class.Product
 
-class ProductRecyclerViewAdapter(private val productList: List<Product>, private val context: Context) : RecyclerView.Adapter<ProductRecyclerViewAdapter.ProductItemViewHolder>() {
+class ProductRecyclerViewAdapter(private val productList: ArrayList<Product>, private val context: Context) : RecyclerView.Adapter<ProductRecyclerViewAdapter.ProductItemViewHolder>() {
     inner class ProductItemViewHolder(item: View) : RecyclerView.ViewHolder(item) {
         val image = item.findViewById<ImageView>(R.id.product_image)
         val name = item.findViewById<TextView>(R.id.product_name)

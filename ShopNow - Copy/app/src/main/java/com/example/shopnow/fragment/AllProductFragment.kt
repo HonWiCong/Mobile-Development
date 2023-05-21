@@ -29,10 +29,14 @@ class AllProductFragment : Fragment() {
         val view = inflater.inflate(R.layout.fragment_all_product, container, false)
         val recyclerView = view.findViewById<RecyclerView>(R.id.all_product_list)
         recyclerView.layoutManager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
-        recyclerView.setHasFixedSize(true)
+        recyclerView.setHasFixedSize(false)
         val products = ArrayList<Product>()
 
-        productsCollection.get()
+        val productsCollection = db.collection("products")
+
+        productsCollection
+            .whereEqualTo("status", true)
+            .get()
             .addOnSuccessListener { querySnapshot ->
                 for (document in querySnapshot) {
                     val productData = document.toObject(Product::class.java)

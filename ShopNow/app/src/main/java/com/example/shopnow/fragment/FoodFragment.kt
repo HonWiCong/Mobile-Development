@@ -5,17 +5,16 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.LinearLayout
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.example.shopnow.R
 import com.example.shopnow.adapter.ProductRecyclerViewAdapter
 import com.example.shopnow.data_class.Product
-import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.ktx.toObject
 
 class FoodFragment : Fragment() {
-    private val db = FirebaseFirestore.getInstance()
-    private val productsCollection = db.collection("products")
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -26,25 +25,22 @@ class FoodFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.fragment_food, container, false)
-        val recyclerView = view.findViewById<RecyclerView>(R.id.food_product_list)
-        recyclerView.layoutManager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
-        recyclerView.setHasFixedSize(false)
-        val products = ArrayList<Product>()
+        val recyclerView = view.findViewById<RecyclerView>(R.id.food_list)
+        recyclerView.layoutManager = StaggeredGridLayoutManager(2, LinearLayout.VERTICAL)
 
-        productsCollection
+        val newProductList = ArrayList<Product>()
+        val database = FirebaseFirestore.getInstance()
+        database
+            .collection("products")
             .whereEqualTo("status", true)
             .whereEqualTo("category", "Food")
             .get()
-            .addOnSuccessListener { querySnapshot ->
-                for (document in querySnapshot) {
-                    val productData = document.toObject(Product::class.java)
-                    productData.id = document.id
-                    products.add(productData)
+            .addOnSuccessListener {
+                for (document in it) {
+                    val product = document.toObject<Product>()
+                    newProductList.add(product)
                 }
-                recyclerView.adapter = ProductRecyclerViewAdapter(products, view.context)
-            }
-            .addOnFailureListener { e ->
-                println("Error getting products: $e")
+                recyclerView.adapter = ProductRecyclerViewAdapter(newProductList, view.context)
             }
 
         return view

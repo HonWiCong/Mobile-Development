@@ -25,11 +25,11 @@ class HomeFragment : Fragment() {
         val view = inflater.inflate(R.layout.fragment_home, container, false)
         val tabLayout = view.findViewById<TabLayout>(R.id.tab_layout)
         val viewPager2 = view.findViewById<ViewPager2>(R.id.viewPager2)
-        val banner = view.findViewById<ImageView>(R.id.home_page_banner)
+//        val banner = view.findViewById<ImageView>(R.id.home_page_banner)
 
-        Glide.with(this)
-            .load("https://images.unsplash.com/photo-1472851294608-062f824d29cc?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80")
-            .into(banner)
+//        Glide.with(this)
+//            .load("https://images.unsplash.com/photo-1472851294608-062f824d29cc?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80")
+//            .into(banner)
 
         val viewPagerAdapter = HomepageViewPagerAdapter(childFragmentManager, lifecycle)
         viewPager2.adapter = viewPagerAdapter

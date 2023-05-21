@@ -3,6 +3,7 @@ package com.example.shopnowseller.activity
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.ImageView
 import androidx.fragment.app.Fragment
 import com.example.shopnowseller.R
 import com.example.shopnowseller.fragment.AddFragment
@@ -18,7 +19,13 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-//        firebaseAuth.signOut()
+
+        val logoutImage = findViewById<ImageView>(R.id.logout_button)
+        logoutImage.setOnClickListener {
+            firebaseAuth.signOut()
+            val intent = Intent(this, LoginActivity::class.java)
+            startActivity(intent)
+        }
 
         loadFragment(AllFragment())
         checkSignIn()

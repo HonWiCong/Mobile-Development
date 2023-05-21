@@ -14,8 +14,9 @@ import com.example.shopnow.data_class.Product
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.toObject
 
+class AllFragment : Fragment() {
 
-class TechnologyFragment : Fragment() {
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
     }
@@ -24,8 +25,8 @@ class TechnologyFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val view = inflater.inflate(R.layout.fragment_technology, container, false)
-        val recyclerView = view.findViewById<RecyclerView>(R.id.technology_list)
+        val view = inflater.inflate(R.layout.fragment_all, container, false)
+        val recyclerView = view.findViewById<RecyclerView>(R.id.all_list)
         recyclerView.layoutManager = StaggeredGridLayoutManager(2, LinearLayout.VERTICAL)
 
         val newProductList = ArrayList<Product>()
@@ -33,7 +34,6 @@ class TechnologyFragment : Fragment() {
         database
             .collection("products")
             .whereEqualTo("status", true)
-            .whereEqualTo("category", "Technology")
             .get()
             .addOnSuccessListener {
                 for (document in it) {
