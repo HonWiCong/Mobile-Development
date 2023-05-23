@@ -48,6 +48,7 @@ class EditActivity : AppCompatActivity() {
         val activeRadio = findViewById<RadioButton>(R.id.edit_active_radio)
         val inactiveRadio = findViewById<RadioButton>(R.id.edit_inactive_radio)
         val submitButton = findViewById<Button>(R.id.edit_submit_button)
+        val deleteButton = findViewById<Button>(R.id.edit_delete_button)
 
         name.text = Editable.Factory.getInstance().newEditable(product.name)
         price.text = Editable.Factory.getInstance().newEditable(product.price.toString())
@@ -143,6 +144,19 @@ class EditActivity : AppCompatActivity() {
                     startActivity(intent)
                 }
                 .addOnFailureListener { Toast.makeText(this, "Failed to edit product",  Toast.LENGTH_SHORT).show() }
+        }
+
+        deleteButton.setOnClickListener {
+            database
+                .collection("products")
+                .document(product.id.toString())
+                .delete()
+                .addOnSuccessListener {
+                    Toast.makeText(this, "Item deleted",  Toast.LENGTH_SHORT).show()
+                    val intent = Intent(this, MainActivity::class.java)
+                    startActivity(intent)
+                }
+                .addOnFailureListener { Toast.makeText(this, "Fail to delete item",  Toast.LENGTH_SHORT).show() }
         }
     }
 
