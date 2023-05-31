@@ -1,6 +1,7 @@
 package com.example.assignment6
 
 import android.Manifest
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Intent
 import android.content.pm.PackageManager
@@ -47,9 +48,10 @@ class ViewMapFragment : Fragment(), OnMapReadyCallback {
     private lateinit var fusedLocationClient : FusedLocationProviderClient
     private lateinit var locationDB : LocationDatabase
     private lateinit var locationImage : ImageView
+    private lateinit var googleMap: GoogleMap
 
-    var latitude : Double? = null
-    var longitude : Double? = null
+    var latitude = 0.00
+    var longitude = 0.00
     val key = "65afe04d18ae4fa8aeed2ade0ca9f6e3"
 
     companion object {
@@ -83,6 +85,8 @@ class ViewMapFragment : Fragment(), OnMapReadyCallback {
     }
 
     override fun onMapReady(googleMap: GoogleMap) {
+        getLocation()
+        this.googleMap = googleMap
         lifecycleScope.launch {
             val locations = readLocation()
             val uniqueLocations = locations.distinctBy { Pair(it.latitude, it.longitude) }
@@ -94,11 +98,9 @@ class ViewMapFragment : Fragment(), OnMapReadyCallback {
                             .position(LatLng(location.latitude, location.longitude))
                             .title(location.address)
                     )
+                    googleMap.moveCamera(CameraUpdateFactory.newLatLng(LatLng(location.latitude, location.longitude)))
                 }
 
-                if (latitude != null && longitude != null) {
-                    googleMap.moveCamera(CameraUpdateFactory.newLatLng(LatLng(latitude!!, longitude!!)))
-                }
 
                 googleMap.setOnMarkerClickListener { marker ->
                     for (location in locations) {
@@ -121,30 +123,47 @@ class ViewMapFragment : Fragment(), OnMapReadyCallback {
             val imageBitmap = data?.extras?.get("data") as Bitmap
             val imagePath = saveImageToStorage(imageBitmap)
 
-            getLocation()
+//            getLocation()
             viewLifecycleOwner.lifecycleScope.launch(Dispatchers.Main) {
                 try {
                     val response = geocodingApi()
 
                     val json = response.getJSONArray("results")
                     val name = json.getJSONObject(0).getString("name")
+                    Log.d("Name", name)
+                    Log.d("Latitude", latitude.toString())
                     val housenumber = json.getJSONObject(0).getString("housenumber")
                     val street = json.getJSONObject(0).getString("street")
-                    val city = json.getJSONObject(0).getString("city")
-                    val postcode = json.getJSONObject(0).getString("postcode")
-                    val state = json.getJSONObject(0).getString("state")
                     val country = json.getJSONObject(0).getString("country")
 
-                    locationText.text = "$latitude, $longitude $name, $housenumber, $street, $country"
+                    locationText.text = "$latitude, $longitude $name"
 
+
+                    Log.d("location.latitude", latitude.toString())
+                    Log.d("location.longitude", longitude.toString())
+                    Log.d("location.address", "$latitude, $longitude $name")
+                    Log.d("location.image", imagePath)
                     val location = Location(
                         null,
-                        latitude!!,
-                        longitude!!,
+                        latitude,
+                        longitude,
                         "$name, $housenumber, $street, $country",
                         imagePath
                     )
+                    Log.d("location.latitude", location.latitude.toString())
+                    Log.d("location.longitude", location.longitude.toString())
+                    Log.d("location.address", location.address)
+                    Log.d("location.image", location.image)
+
                     writeLocation(location)
+
+                    googleMap.addMarker(
+                        MarkerOptions()
+                            .position(LatLng(location.latitude, location.longitude))
+                            .title(location.address)
+                    )
+                    googleMap.moveCamera(CameraUpdateFactory.newLatLng(LatLng(location.latitude, location.longitude)))
+
                 } catch (e: Exception) {
                     Log.d("vol", e.toString())
                 }
@@ -174,7 +193,8 @@ class ViewMapFragment : Fragment(), OnMapReadyCallback {
     }
 
     private suspend fun geocodingApi(): JSONObject {
-        val url = "https://api.geoapify.com/v1/geocode/reverse?lat=$latitude&lon=$longitude&format=json&apiKey=$key"
+        val url = "https://api.geoapify.com/v1/geocode/reverse?lat=${this.latitude}&lon=${this.longitude}&format=json&apiKey=$key"
+        Log.d("URL", url)
         return withContext(Dispatchers.IO) {
             val queue = Volley.newRequestQueue(requireContext())
             val responseDeferred = CompletableDeferred<JSONObject>()
@@ -206,6 +226,7 @@ class ViewMapFragment : Fragment(), OnMapReadyCallback {
 
     private suspend fun readLocation(): ArrayList<Location> {
         return withContext(Dispatchers.IO) {
+
             ArrayList(locationDB.locationDao().getAll())
         }
     }
@@ -221,8 +242,10 @@ class ViewMapFragment : Fragment(), OnMapReadyCallback {
         fusedLocationClient.lastLocation
             .addOnSuccessListener {
                 if (it != null) {
-                    latitude = it.latitude
-                    longitude = it.longitude
+                    this.latitude = it.latitude
+                    Log.d("Returned latitude", latitude.toString())
+                    this.longitude = it.longitude
+                    Log.d("Returned longitude", longitude.toString())
                 }
             }
     }

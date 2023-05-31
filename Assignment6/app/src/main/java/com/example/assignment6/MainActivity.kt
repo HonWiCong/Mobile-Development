@@ -47,6 +47,9 @@ class MainActivity : AppCompatActivity() {
         locationDB = LocationDatabase.getDatabase(this)
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
 
+//        GlobalScope.launch(Dispatchers.IO) {
+//            locationDB.locationDao().deleteAll()
+//        }
         loadFragment(ViewMapFragment())
 
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
