@@ -5,28 +5,32 @@ import android.os.Parcelable
 
 data class Product(
     var id: String? = "",
-    var name: String = "",
+    var name: String? = "",
     var price: Double = 0.0,
     var image: String? = "",
     var rating: String? = "4.5",
-    var description: String? = "",
+    var quantity: Int? = 0,
+    var description:
+    String? = "",
     var seller: String? = "",
     var seller_thumbnail: String? = "",
     var category: String? = "",
     var status: Boolean? = false
 ) : Parcelable {
     constructor(parcel: Parcel) : this(
-        parcel.readString().toString(),
-        parcel.readString().toString(),
+        parcel.readString(),
+        parcel.readString(),
         parcel.readDouble(),
         parcel.readString(),
         parcel.readString(),
+        parcel.readValue(Int::class.java.classLoader) as? Int,
         parcel.readString(),
         parcel.readString(),
         parcel.readString(),
         parcel.readString(),
         parcel.readValue(Boolean::class.java.classLoader) as? Boolean
-    )
+    ) {
+    }
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
         parcel.writeString(id)
@@ -34,6 +38,7 @@ data class Product(
         parcel.writeDouble(price)
         parcel.writeString(image)
         parcel.writeString(rating)
+        parcel.writeValue(quantity)
         parcel.writeString(description)
         parcel.writeString(seller)
         parcel.writeString(seller_thumbnail)
@@ -55,4 +60,3 @@ data class Product(
         }
     }
 }
-

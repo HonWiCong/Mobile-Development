@@ -10,6 +10,7 @@ import android.widget.*
 import androidx.activity.result.ActivityResultCallback
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.app.AlertDialog
 import com.bumptech.glide.Glide
 import com.example.shopnowseller.R
 import com.example.shopnowseller.data_class.Product
@@ -42,6 +43,7 @@ class EditActivity : AppCompatActivity() {
         val name = findViewById<EditText>(R.id.edit_product_name_input)
         val price = findViewById<EditText>(R.id.edit_price_input)
         val description = findViewById<EditText>(R.id.edit_description_input)
+        val quantity = findViewById<EditText>(R.id.edit_quantity_input)
         val category = findViewById<Spinner>(R.id.edit_category_spinner)
         image = findViewById(R.id.edit_image)
         val uploadImageButton = findViewById<Button>(R.id.edit_upload_image_button)
@@ -53,6 +55,7 @@ class EditActivity : AppCompatActivity() {
         name.text = Editable.Factory.getInstance().newEditable(product.name)
         price.text = Editable.Factory.getInstance().newEditable(product.price.toString())
         description.text = Editable.Factory.getInstance().newEditable(product.description)
+        quantity.text = Editable.Factory.getInstance().newEditable(product.quantity.toString())
 
         Glide.with(this)
             .load(product.image)
@@ -127,6 +130,7 @@ class EditActivity : AppCompatActivity() {
                 id = product.id,
                 name = name.text.toString(),
                 price = price.text.toString().toDouble(),
+                quantity = quantity.text.toString().toInt(),
                 image = imageDownloadURL,
                 description = description.text.toString(),
                 seller = currentUser!!.uid,
@@ -134,10 +138,22 @@ class EditActivity : AppCompatActivity() {
                 status = status
             )
 
+            val productMap = mapOf(
+                "id" to editedProduct.id,
+                "name" to editedProduct.name,
+                "price" to editedProduct.price,
+                "quantity" to editedProduct.quantity,
+                "image" to editedProduct.image,
+                "description" to editedProduct.description,
+                "seller" to editedProduct.seller,
+                "category" to editedProduct.category,
+                "status" to editedProduct.status
+            )
+
             database
                 .collection("products")
                 .document(product.id.toString())
-                .set(editedProduct)
+                .update(productMap)
                 .addOnSuccessListener {
                     Toast.makeText(this, "Product edited successfully",  Toast.LENGTH_SHORT).show()
                     val intent = Intent(this, MainActivity::class.java)
@@ -147,16 +163,30 @@ class EditActivity : AppCompatActivity() {
         }
 
         deleteButton.setOnClickListener {
-            database
-                .collection("products")
-                .document(product.id.toString())
-                .delete()
-                .addOnSuccessListener {
-                    Toast.makeText(this, "Item deleted",  Toast.LENGTH_SHORT).show()
-                    val intent = Intent(this, MainActivity::class.java)
-                    startActivity(intent)
-                }
-                .addOnFailureListener { Toast.makeText(this, "Fail to delete item",  Toast.LENGTH_SHORT).show() }
+            val alertDialogBuilder = AlertDialog.Builder(this)
+            alertDialogBuilder.setTitle("Confirm Delete")
+            alertDialogBuilder.setMessage("Are you sure you want to delete this item?")
+            alertDialogBuilder.setPositiveButton("Delete") { dialog, _ ->
+                // Delete the item
+                database
+                    .collection("products")
+                    .document(product.id.toString())
+                    .delete()
+                    .addOnSuccessListener {
+                        Toast.makeText(this, "Item deleted", Toast.LENGTH_SHORT).show()
+                        val intent = Intent(this, MainActivity::class.java)
+                        startActivity(intent)
+                    }
+                    .addOnFailureListener {
+                        Toast.makeText(this, "Failed to delete item", Toast.LENGTH_SHORT).show()
+                    }
+                dialog.dismiss()
+            }
+            alertDialogBuilder.setNegativeButton("Cancel") { dialog, _ ->
+                dialog.dismiss()
+            }
+            val alertDialog = alertDialogBuilder.create()
+            alertDialog.show()
         }
     }
 

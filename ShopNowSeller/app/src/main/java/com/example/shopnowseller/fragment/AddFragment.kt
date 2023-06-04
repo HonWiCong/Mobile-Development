@@ -35,6 +35,7 @@ class AddFragment : Fragment() {
         val price = view.findViewById<EditText>(R.id.add_price_input)
         val description = view.findViewById<EditText>(R.id.add_description_input)
         val category = view.findViewById<Spinner>(R.id.add_category_spinner)
+        val quantity = view.findViewById<EditText>(R.id.add_quantity_input)
         image = view.findViewById(R.id.add_image)
         val uploadImageButton = view.findViewById<Button>(R.id.add_upload_image_button)
         val activeRadio = view.findViewById<RadioButton>(R.id.add_active_radio)
@@ -101,6 +102,7 @@ class AddFragment : Fragment() {
                 name = name.text.toString(),
                 price = price.text.toString().toDouble(),
                 image = imageDownloadURL,
+                quantity = quantity.text.toString().toInt(),
                 description = description.text.toString(),
                 seller = currentUser!!.uid,
                 category = categorySelected,

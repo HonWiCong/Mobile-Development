@@ -65,6 +65,20 @@
             app:layout_constraintStart_toStartOf="@+id/add_price_input"
             app:layout_constraintTop_toBottomOf="@+id/add_price_input" />
 
+        <EditText
+            android:id="@+id/add_quantity_input"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            android:ems="10"
+            android:hint="Quantity"
+            android:inputType="textPersonName"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/add_description_input" />
+
         <TextView
             android:id="@+id/textView6"
             android:layout_width="wrap_content"
@@ -72,17 +86,16 @@
             android:layout_marginTop="16dp"
             android:text="Category"
             android:textColor="@color/black"
-            app:layout_constraintStart_toStartOf="@+id/add_description_input"
-            app:layout_constraintTop_toBottomOf="@+id/add_description_input" />
+            app:layout_constraintStart_toStartOf="@+id/add_quantity_input"
+            app:layout_constraintTop_toBottomOf="@+id/add_quantity_input" />
 
         <Spinner
             android:id="@+id/add_category_spinner"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="24dp"
-            android:layout_marginTop="16dp"
             app:layout_constraintStart_toEndOf="@+id/textView6"
-            app:layout_constraintTop_toBottomOf="@+id/add_description_input" />
+            app:layout_constraintTop_toTopOf="@+id/textView6" />
 
         <ImageView
             android:id="@+id/add_image"

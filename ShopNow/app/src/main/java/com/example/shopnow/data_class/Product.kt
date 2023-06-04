@@ -5,7 +5,7 @@ import android.os.Parcelable
 
 data class Product(
     var id: String? = "",
-    var name: String = "",
+    var name: String? = "",
     var price: Double = 0.0,
     var image: String? = "",
     var rating: String? = "",
@@ -13,11 +13,12 @@ data class Product(
     var seller: String? = "",
     var seller_thumbnail: String? = "",
     var category: String? = "",
-    var status: Boolean? = false
+    var status: Boolean? = false,
+    var quantity: Int? = 0
 ) : Parcelable {
     constructor(parcel: Parcel) : this(
-        parcel.readString().toString(),
-        parcel.readString().toString(),
+        parcel.readString(),
+        parcel.readString(),
         parcel.readDouble(),
         parcel.readString(),
         parcel.readString(),
@@ -25,8 +26,10 @@ data class Product(
         parcel.readString(),
         parcel.readString(),
         parcel.readString(),
-        parcel.readValue(Boolean::class.java.classLoader) as? Boolean
-    )
+        parcel.readValue(Boolean::class.java.classLoader) as? Boolean,
+        parcel.readValue(Int::class.java.classLoader) as? Int
+    ) {
+    }
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
         parcel.writeString(id)
@@ -39,6 +42,7 @@ data class Product(
         parcel.writeString(seller_thumbnail)
         parcel.writeString(category)
         parcel.writeValue(status)
+        parcel.writeValue(quantity)
     }
 
     override fun describeContents(): Int {

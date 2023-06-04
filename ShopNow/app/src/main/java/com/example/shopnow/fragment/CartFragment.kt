@@ -61,7 +61,7 @@ class CartFragment : Fragment() {
                             val productsCollectionRef = db.collection("products")
 
                             for (productId in cartList) {
-                                productsCollectionRef.document("products/$productId").get()
+                                productsCollectionRef.document(productId).get()
                                     .addOnSuccessListener { productDocument ->
                                         if (productDocument.exists()) {
 

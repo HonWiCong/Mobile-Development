@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activity.OrderDetailActivity">
+
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/materialToolbar"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        app:navigationIcon="@drawable/baseline_arrow_back_ios_new_20"
+        android:minHeight="?attr/actionBarSize"
+        android:theme="?attr/actionBarTheme"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/order_detail_product_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:text="name"
+        android:textColor="@color/black"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/materialToolbar" />
+
+    <TextView
+        android:id="@+id/order_detail_total"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="total"
+        android:textColor="@color/black"
+        app:layout_constraintStart_toStartOf="@+id/order_detail_product_name"
+        app:layout_constraintTop_toBottomOf="@+id/order_detail_product_name" />
+
+    <TextView
+        android:id="@+id/order_detail_quantity"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="quantity"
+        android:textColor="@color/black"
+        app:layout_constraintStart_toStartOf="@+id/order_detail_total"
+        app:layout_constraintTop_toBottomOf="@+id/order_detail_total" />
+
+    <TextView
+        android:id="@+id/order_detail_date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="date"
+        android:textColor="@color/black"
+        app:layout_constraintStart_toStartOf="@+id/order_detail_quantity"
+        app:layout_constraintTop_toBottomOf="@+id/order_detail_quantity" />
+
+    <TextView
+        android:id="@+id/order_detail_address"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="address"
+        android:textColor="@color/black"
+        app:layout_constraintStart_toStartOf="@+id/order_detail_date"
+        app:layout_constraintTop_toBottomOf="@+id/order_detail_date" />
+
+    <TextView
+        android:id="@+id/order_detail_buyer_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="buyer name"
+        android:textColor="@color/black"
+        app:layout_constraintStart_toStartOf="@+id/order_detail_address"
+        app:layout_constraintTop_toBottomOf="@+id/order_detail_address" />
+
+    <TextView
+        android:id="@+id/order_detail_payment"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="Payment"
+        android:textColor="@color/black"
+        app:layout_constraintStart_toStartOf="@+id/order_detail_buyer_name"
+        app:layout_constraintTop_toBottomOf="@+id/order_detail_buyer_name" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

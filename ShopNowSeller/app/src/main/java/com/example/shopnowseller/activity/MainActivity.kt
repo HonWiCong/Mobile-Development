@@ -20,10 +20,17 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+//        firebaseAuth.signOut()
         val logoutImage = findViewById<ImageView>(R.id.logout_button)
         logoutImage.setOnClickListener {
             firebaseAuth.signOut()
             val intent = Intent(this, LoginActivity::class.java)
+            startActivity(intent)
+        }
+
+        val orderImage = findViewById<ImageView>(R.id.order_button)
+        orderImage.setOnClickListener {
+            val intent = Intent(this, OrderActivity::class.java)
             startActivity(intent)
         }
 

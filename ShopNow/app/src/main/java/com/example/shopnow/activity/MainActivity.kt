@@ -25,7 +25,16 @@ class MainActivity : AppCompatActivity() {
 
 //        firebaseAuth.signOut()
         checkSignIn()
-        loadFragment(HomeFragment())
+
+        val fragmentToLoad = intent.getStringExtra("fragmentToLoad")
+
+        if (fragmentToLoad == "cartFragment") {
+            loadFragment(CartFragment())
+        } else {
+            loadFragment(HomeFragment())
+            // Load default fragment or handle other cases
+        }
+
         navigationAction()
 
     }
@@ -58,9 +67,9 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun loadFragment(fragment: Fragment) {
-        val transaction = supportFragmentManager.beginTransaction()
-        transaction.replace(R.id.homepage_fragment_container, fragment)
-        transaction.addToBackStack(null)
-        transaction.commit()
+        supportFragmentManager.beginTransaction()
+            .replace(R.id.homepage_fragment_container, fragment)
+            .addToBackStack(null)
+            .commit()
     }
 }
