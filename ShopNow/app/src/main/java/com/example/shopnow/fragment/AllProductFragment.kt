@@ -52,10 +52,12 @@ class AllProductFragment : Fragment() {
     }
 
     private fun fetchItemsFromFirestore() {
-        val db = FirebaseFirestore.getInstance()
-        val collectionRef = db.collection("products")
-
-        collectionRef.addSnapshotListener { snapshot, exception ->
+        val database = FirebaseFirestore.getInstance()
+        database
+            .collection("products")
+            .whereEqualTo("status", true)
+            .whereGreaterThan("quantity", 0)
+            .addSnapshotListener { snapshot, exception ->
             if (exception != null) {
                 Log.e(TAG, "Error fetching items: $exception")
                 return@addSnapshotListener

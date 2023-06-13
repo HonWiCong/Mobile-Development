@@ -1,12 +1,12 @@
-package com.example.shopnowseller.fragment
+package com.example.shopnowseller.activity
 
+import android.content.Intent
 import android.net.Uri
+import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import android.widget.*
+import androidx.appcompat.widget.Toolbar
 import androidx.activity.result.ActivityResultCallback
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
@@ -16,7 +16,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
 
-class AddFragment : Fragment() {
+class AddActivity : AppCompatActivity() {
     private var imageUri : Uri? = null
     private lateinit var image : ImageView
     private var storageRef = FirebaseStorage.getInstance()
@@ -25,28 +25,31 @@ class AddFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-    }
+        setContentView(R.layout.activity_add)
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val view = inflater.inflate(R.layout.fragment_add, container, false)
-        super.onViewCreated(view, savedInstanceState)
+        val toolbar = findViewById<Toolbar>(R.id.materialToolbar)
+        setSupportActionBar(toolbar)
 
-        val name = view.findViewById<EditText>(R.id.add_product_name_input)
-        val price = view.findViewById<EditText>(R.id.add_price_input)
-        val description = view.findViewById<EditText>(R.id.add_description_input)
-        val category = view.findViewById<Spinner>(R.id.add_category_spinner)
-        val quantity = view.findViewById<EditText>(R.id.add_quantity_input)
-        image = view.findViewById(R.id.add_image)
-        val uploadImageButton = view.findViewById<Button>(R.id.add_upload_image_button)
-        val activeRadio = view.findViewById<RadioButton>(R.id.add_active_radio)
-        val inactiveRadio = view.findViewById<RadioButton>(R.id.add_inactive_radio)
-        val submitButton = view.findViewById<Button>(R.id.add_submit_button)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        toolbar.setNavigationOnClickListener { onBackPressed() }
+        supportActionBar?.title = "Create Product"
+
+        val name = findViewById<EditText>(R.id.add_product_name_input)
+        val price = findViewById<EditText>(R.id.add_price_input)
+        val description = findViewById<EditText>(R.id.add_description_input)
+        val category = findViewById<Spinner>(R.id.add_category_spinner)
+        val quantity = findViewById<EditText>(R.id.add_quantity_input)
+        image = findViewById(R.id.add_image)
+        val uploadImageButton = findViewById<Button>(R.id.add_upload_image_button)
+        val activeRadio = findViewById<RadioButton>(R.id.add_active_radio)
+        val inactiveRadio = findViewById<RadioButton>(R.id.add_inactive_radio)
+        val submitButton = findViewById<Button>(R.id.add_submit_button)
 
         val database = FirebaseFirestore.getInstance()
         val currentUser = FirebaseAuth.getInstance().currentUser
 
         val categoryOptions = resources.getStringArray(R.array.category)
-        val spinnerAdapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, categoryOptions)
+        val spinnerAdapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, categoryOptions)
         category.adapter = spinnerAdapter
 
         var status = true
@@ -98,28 +101,30 @@ class AddFragment : Fragment() {
         }
 
         submitButton.setOnClickListener {
-            val product = Product(
-                name = name.text.toString(),
-                price = price.text.toString().toDouble(),
-                image = imageDownloadURL,
-                quantity = quantity.text.toString().toInt(),
-                description = description.text.toString(),
-                seller = currentUser!!.uid,
-                category = categorySelected,
-                status = status
-            )
+            if (name.text.isNullOrEmpty() || price.text.isNullOrEmpty() || imageDownloadURL == "" || quantity.text.isNullOrEmpty() || description.text.isNullOrEmpty() || categorySelected == "") {
+                Toast.makeText(this, "All field are required!",  Toast.LENGTH_SHORT).show()
+            } else {
+                val product = Product(
+                    name = name.text.toString(),
+                    price = price.text.toString().toDouble(),
+                    image = imageDownloadURL,
+                    quantity = quantity.text.toString().toInt(),
+                    description = description.text.toString(),
+                    seller = currentUser!!.uid,
+                    category = categorySelected,
+                    status = status
+                )
 
-            database
-                .collection("products")
-                .add(product)
-                .addOnSuccessListener { Toast.makeText(context, "Product added successfully",  Toast.LENGTH_SHORT).show() }
-                .addOnFailureListener { Toast.makeText(context, "Failed to add product",  Toast.LENGTH_SHORT).show() }
-
-
+                database
+                    .collection("products")
+                    .add(product)
+                    .addOnSuccessListener {
+                        Toast.makeText(this, "Product added successfully",  Toast.LENGTH_SHORT).show()
+                        val intent = Intent(this, MainActivity::class.java)
+                        startActivity(intent)
+                    }
+                    .addOnFailureListener { Toast.makeText(this, "Failed to add product",  Toast.LENGTH_SHORT).show() }
+            }
         }
-
-
-        return view
     }
-
 }

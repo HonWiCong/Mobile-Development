@@ -14,7 +14,7 @@
       },
       "oauth_client": [
         {
-          "client_id": "418316593627-n85p5uf6odpoo8a0ipo5ng7gflg4t5va.apps.googleusercontent.com",
+          "client_id": "418316593627-jh4h79k3ot9rmooad3c75cqv8n0ubmsf.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
@@ -27,7 +27,36 @@
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "418316593627-n85p5uf6odpoo8a0ipo5ng7gflg4t5va.apps.googleusercontent.com",
+              "client_id": "418316593627-jh4h79k3ot9rmooad3c75cqv8n0ubmsf.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:418316593627:android:7d7183a1c7f62d792b1ffe",
+        "android_client_info": {
+          "package_name": "com.example.shopnowseller"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "418316593627-jh4h79k3ot9rmooad3c75cqv8n0ubmsf.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCLTKFSzzbtWYjWgjaA0D-7QZO6cjhthYk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "418316593627-jh4h79k3ot9rmooad3c75cqv8n0ubmsf.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

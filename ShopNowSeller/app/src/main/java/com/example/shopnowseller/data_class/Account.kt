@@ -5,6 +5,7 @@ data class Account(
     val email: String = "",
     val address: String? = "",
     val image: String? = "",
-    var cart_list: ArrayList<String>? = ArrayList()
+    var cart_list: ArrayList<String>? = ArrayList(),
+    var token: String = ""
 )
 

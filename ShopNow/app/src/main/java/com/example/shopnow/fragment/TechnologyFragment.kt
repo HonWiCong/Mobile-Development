@@ -52,10 +52,9 @@ class TechnologyFragment : Fragment() {
     }
 
     private fun fetchItemsFromFirestore() {
-        val db = FirebaseFirestore.getInstance()
-        val collectionRef = db.collection("products")
-
-        collectionRef
+        val database = FirebaseFirestore.getInstance()
+        database
+            .collection("products")
             .whereEqualTo("status", true)
             .whereEqualTo("category", "Technology")
             .addSnapshotListener { snapshot, exception ->

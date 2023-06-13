@@ -104,7 +104,7 @@
         app:layout_constraintTop_toBottomOf="@+id/detail_product_rating" />
 
     <TextView
-        android:id="@+id/textView19"
+        android:id="@+id/shop_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
@@ -146,10 +146,10 @@
         android:text="Active 2 hrs ago"
         android:textSize="12sp"
         app:layout_constraintStart_toEndOf="@+id/detail_shop_thumbnail"
-        app:layout_constraintTop_toBottomOf="@+id/textView19" />
+        app:layout_constraintTop_toBottomOf="@+id/shop_name" />
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/detail_visit_store_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="16dp"

@@ -92,7 +92,18 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
+            <TextView
+                android:id="@+id/purchase_history_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="24dp"
+                android:text="View Purchase History"
+                app:layout_constraintBottom_toBottomOf="@+id/textView6"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/textView6" />
+
             <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/constraintLayout"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginTop="16dp"
@@ -128,10 +139,10 @@
                 </LinearLayout>
 
                 <LinearLayout
-                    android:id="@+id/to_pay"
+                    android:id="@+id/to_receive"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:layout_marginStart="48dp"
+                    android:layout_marginStart="32dp"
                     android:layout_weight="0"
                     android:gravity="center"
                     android:orientation="vertical"
@@ -143,14 +154,66 @@
                         android:layout_width="32dp"
                         android:layout_height="32dp"
                         android:layout_weight="1"
-                        android:src="@drawable/baseline_account_balance_wallet_24" />
+                        android:src="@drawable/baseline_input_24" />
 
                     <TextView
                         android:id="@+id/textView8"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="To Pay" />
+                        android:text="To Receive" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/completed"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="32dp"
+                    android:layout_weight="0"
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    app:layout_constraintStart_toEndOf="@+id/to_receive"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <ImageView
+                        android:id="@+id/completed_icon"
+                        android:layout_width="32dp"
+                        android:layout_height="32dp"
+                        android:layout_weight="1"
+                        android:src="@drawable/baseline_check_24" />
+
+                    <TextView
+                        android:id="@+id/completed_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Completed" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/cancelled"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="32dp"
+                    android:layout_weight="0"
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    app:layout_constraintStart_toEndOf="@+id/completed"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <ImageView
+                        android:id="@+id/cancelled_icon"
+                        android:layout_width="32dp"
+                        android:layout_height="32dp"
+                        android:layout_weight="1"
+                        android:src="@drawable/baseline_cancel_24" />
+
+                    <TextView
+                        android:id="@+id/cancelled_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Cancelled" />
                 </LinearLayout>
 
             </androidx.constraintlayout.widget.ConstraintLayout>

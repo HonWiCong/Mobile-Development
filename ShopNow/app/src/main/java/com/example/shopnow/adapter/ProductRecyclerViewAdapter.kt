@@ -30,7 +30,6 @@ class ProductRecyclerViewAdapter(private val productList: MutableList<Product>, 
 
     override fun onBindViewHolder(holder: ProductItemViewHolder, position: Int) {
         val product = productList[position]
-        Log.d("Product name from adapter: ", product.name!!)
 
         holder.name.text = product.name
 

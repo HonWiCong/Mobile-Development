@@ -6,16 +6,14 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import com.bumptech.glide.Glide
 import com.example.shopnow.R
 import com.example.shopnow.activity.LoginActivity
-import com.example.shopnow.activity.ToShipActivity
+import com.example.shopnow.activity.MyPurchaseActivity
 import com.example.shopnow.activity.UserEditActivity
-import com.example.shopnow.data_class.Account
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 
@@ -37,6 +35,10 @@ class AccountFragment : Fragment() {
         val profileImage = view.findViewById<ImageView>(R.id.account_image)
         val email = view.findViewById<TextView>(R.id.email_address_text)
         val toShip = view.findViewById<LinearLayout>(R.id.to_ship)
+        val toReceive = view.findViewById<LinearLayout>(R.id.to_receive)
+        val completed = view.findViewById<LinearLayout>(R.id.completed)
+        val cancelled = view.findViewById<LinearLayout>(R.id.cancelled)
+        val purchaseHistory = view.findViewById<TextView>(R.id.purchase_history_text)
         val edit = view.findViewById<ImageView>(R.id.acount_edit)
 
         val currentUser = FirebaseAuth.getInstance().currentUser
@@ -68,7 +70,32 @@ class AccountFragment : Fragment() {
         }
 
         toShip.setOnClickListener {
-            val intent = Intent(context, ToShipActivity::class.java)
+            val intent = Intent(context, MyPurchaseActivity::class.java)
+            intent.putExtra("TAB_POSITION", 0)
+            startActivity(intent)
+        }
+
+        toReceive.setOnClickListener {
+            val intent = Intent(context, MyPurchaseActivity::class.java)
+            intent.putExtra("TAB_POSITION", 1)
+            startActivity(intent)
+        }
+
+        completed.setOnClickListener {
+            val intent = Intent(context, MyPurchaseActivity::class.java)
+            intent.putExtra("TAB_POSITION", 2)
+            startActivity(intent)
+        }
+
+        cancelled.setOnClickListener {
+            val intent = Intent(context, MyPurchaseActivity::class.java)
+            intent.putExtra("TAB_POSITION", 3)
+            startActivity(intent)
+        }
+
+        purchaseHistory.setOnClickListener {
+            val intent = Intent(context, MyPurchaseActivity::class.java)
+            intent.putExtra("TAB_POSITION", 2)
             startActivity(intent)
         }
 

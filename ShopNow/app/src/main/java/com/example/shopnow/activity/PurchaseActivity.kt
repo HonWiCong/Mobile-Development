@@ -16,16 +16,20 @@ import com.example.shopnow.MainActivity
 import com.example.shopnow.R
 import com.example.shopnow.data_class.Order
 import com.example.shopnow.data_class.Product
+import com.example.shopnow.data_class.Shop
+import com.google.firebase.Timestamp
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
-import java.time.LocalDateTime
-import java.time.format.DateTimeFormatter
+
+import okhttp3.*
+import okhttp3.MediaType.Companion.toMediaType
+import java.io.IOException
+
 
 class PurchaseActivity : AppCompatActivity() {
     private val currentUser = FirebaseAuth.getInstance().currentUser
     private val database = FirebaseFirestore.getInstance()
-    private lateinit var toolbar: Toolbar
-
+    private val client = OkHttpClient()
 
     @RequiresApi(Build.VERSION_CODES.O)
     @SuppressLint("SetTextI18n")
@@ -33,13 +37,14 @@ class PurchaseActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_purchase)
 
-        toolbar = findViewById(R.id.materialToolbar)
+        val toolbar = findViewById<Toolbar>(R.id.materialToolbar)
         setSupportActionBar(toolbar)
 
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         toolbar.setNavigationOnClickListener { onBackPressed() }
-        supportActionBar?.setDisplayShowTitleEnabled(false)
+        supportActionBar?.title = "Checkout"
 
+        val shopName = findViewById<TextView>(R.id.purchase_shop_name)
         val image = findViewById<ImageView>(R.id.purchase_product_image)
         val name = findViewById<TextView>(R.id.purchase_product_name)
         val price = findViewById<TextView>(R.id.purchase_price)
@@ -75,9 +80,25 @@ class PurchaseActivity : AppCompatActivity() {
                 }
             }
 
+        database
+            .collection("shops")
+            .document(product.seller.toString())
+            .get()
+            .addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    val shop = task.result?.toObject(Shop::class.java)
+                    if (shop != null) {
+                        shopName.text = shop.name
+                    } else {
+                        Toast.makeText(this, "Shop not found or incorrect format.", Toast.LENGTH_SHORT).show()
+                    }
+                } else {
+                    Toast.makeText(this, "Error getting shop: ${task.exception?.message}", Toast.LENGTH_SHORT).show()
+                }
+            }
+
         orderButton.setOnClickListener {
-            val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")
-            val current = LocalDateTime.now().format(formatter)
+            val current = Timestamp.now()
 
             val order = Order(
                 product_id = product.id!!,
@@ -114,4 +135,5 @@ class PurchaseActivity : AppCompatActivity() {
 
         }
     }
+
 }

@@ -1,10 +1,12 @@
 package com.example.shopnow.fragment
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.EditText
 import android.widget.ImageView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -12,10 +14,12 @@ import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import androidx.viewpager2.widget.ViewPager2
 import com.bumptech.glide.Glide
 import com.example.shopnow.R
+import com.example.shopnow.activity.SearchActivity
 import com.example.shopnow.adapter.CartRecyclerViewAdapter
 import com.example.shopnow.adapter.HomepageViewPagerAdapter
 import com.example.shopnow.adapter.ProductRecyclerViewAdapter
 import com.example.shopnow.data_class.Product
+import com.google.android.material.card.MaterialCardView
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import com.google.firebase.firestore.FirebaseFirestore
@@ -37,6 +41,11 @@ class HomeFragment : Fragment() {
         val banner = view.findViewById<ImageView>(R.id.home_page_banner)
         val recyclerView = view.findViewById<RecyclerView>(R.id.home_product_list)
         recyclerView.layoutManager = StaggeredGridLayoutManager(2, LinearLayoutManager.VERTICAL)
+        val searchBox = view.findViewById<MaterialCardView>(R.id.search_input)
+        searchBox.setOnClickListener {
+            val intent = Intent(context, SearchActivity::class.java)
+            startActivity(intent)
+        }
 
         val productList = ArrayList<Product>()
         val database = FirebaseFirestore.getInstance()

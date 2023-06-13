@@ -15,7 +15,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 
 class InactiveFragment : Fragment() {
-    val database = FirebaseFirestore.getInstance()
+    private val database = FirebaseFirestore.getInstance()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -48,6 +48,18 @@ class InactiveFragment : Fragment() {
             .addOnFailureListener { Toast.makeText(view.context, "Something Wrong", Toast.LENGTH_SHORT).show() }
 
         return view
+    }
+
+    companion object {
+        private const val ARG_TAB_TITLE = "arg_tab_title"
+
+        fun newInstance(tabTitle: String): InactiveFragment {
+            val fragment = InactiveFragment()
+            val args = Bundle()
+            args.putString(ARG_TAB_TITLE, tabTitle)
+            fragment.arguments = args
+            return fragment
+        }
     }
 
 }

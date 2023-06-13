@@ -14,29 +14,29 @@ import com.example.shopnowseller.data_class.Product
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 
-
-class AllFragment : Fragment() {
-    val database = FirebaseFirestore.getInstance()
+class ProductOutOfStockFragment : Fragment() {
+    private val database = FirebaseFirestore.getInstance()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
     }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val view = inflater.inflate(R.layout.fragment_all, container, false)
-        val recyclerView = view.findViewById<RecyclerView>(R.id.all_product_list)
+        val view = inflater.inflate(R.layout.fragment_product_out_of_stock, container, false)
+
+        val recyclerView = view.findViewById<RecyclerView>(R.id.out_of_stock_list)
         recyclerView.layoutManager = LinearLayoutManager(context)
         val products = ArrayList<Product>()
-
         val currentUser = FirebaseAuth.getInstance().currentUser
+
         database
             .collection("products")
             .whereEqualTo("status", true)
             .whereEqualTo("seller", currentUser!!.uid)
+            .whereLessThanOrEqualTo("quantity", 0)
             .get()
             .addOnSuccessListener { querySnapshot ->
                 for (document in querySnapshot) {
@@ -51,4 +51,15 @@ class AllFragment : Fragment() {
         return view
     }
 
+    companion object {
+        private const val ARG_TAB_TITLE = "arg_tab_title"
+
+        fun newInstance(tabTitle: String): ProductOutOfStockFragment {
+            val fragment = ProductOutOfStockFragment()
+            val args = Bundle()
+            args.putString(ARG_TAB_TITLE, tabTitle)
+            fragment.arguments = args
+            return fragment
+        }
+    }
 }

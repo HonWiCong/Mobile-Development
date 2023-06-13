@@ -16,8 +16,11 @@ import com.example.shopnowseller.activity.EditActivity
 import com.example.shopnowseller.activity.OrderDetailActivity
 import com.example.shopnowseller.data_class.Order
 import com.example.shopnowseller.data_class.Product
+import com.google.firebase.Timestamp
+import java.text.SimpleDateFormat
+import java.util.*
 
-class OrderRecyclerViewAdapter(private val orderList: ArrayList<Order>, private val context: Context) : RecyclerView.Adapter<OrderRecyclerViewAdapter.ItemViewHolder>() {
+class OrderRecyclerViewAdapter(private val orderList: ArrayList<Order>, private val context: Context, private val type: String) : RecyclerView.Adapter<OrderRecyclerViewAdapter.ItemViewHolder>() {
     inner class ItemViewHolder(item: View) : RecyclerView.ViewHolder(item) {
         val image = item.findViewById<ImageView>(R.id.order_product_image)
         val name = item.findViewById<TextView>(R.id.order_product_name)
@@ -46,13 +49,21 @@ class OrderRecyclerViewAdapter(private val orderList: ArrayList<Order>, private 
 
         holder.name.text = order.product_name
         holder.total.text = "RM" + order.totalPrice
-        holder.date.text = order.date
+
+        val firebaseTimestamp: Timestamp = order.date!!
+        val date: Date = firebaseTimestamp.toDate()
+        val dateFormat = SimpleDateFormat("dd-MM-yyyy, HH:mm", Locale.getDefault())
+        val formattedDate: String = dateFormat.format(date)
+        holder.date.text = formattedDate
+
         holder.quantity.text = "Qty: " + order.quantity
 
         holder.container.setOnClickListener {
             val intent = Intent(context, OrderDetailActivity::class.java)
             intent.putExtra("order", order)
+            intent.putExtra("type", type)
             context.startActivity(intent)
         }
     }
+
 }

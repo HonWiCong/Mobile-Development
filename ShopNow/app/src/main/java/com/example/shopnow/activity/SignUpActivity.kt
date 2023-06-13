@@ -3,6 +3,7 @@ package com.example.shopnow.activity
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
@@ -12,11 +13,12 @@ import com.example.shopnow.R
 import com.example.shopnow.data_class.Account
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.messaging.FirebaseMessaging
 
 class SignUpActivity : AppCompatActivity() {
     private val firebaseAuth = FirebaseAuth.getInstance()
     private val db = FirebaseFirestore.getInstance()
-    private lateinit var username : EditText
+    private lateinit var username: EditText
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -40,9 +42,20 @@ class SignUpActivity : AppCompatActivity() {
                 if (password.text.toString() == passwordConfirm.text.toString()) {
                     firebaseAuth.createUserWithEmailAndPassword(email.text.toString(), password.text.toString()).addOnCompleteListener {
                         if (it.isSuccessful) {
-                            createUser()
-                            val intent = Intent(this, MainActivity::class.java)
-                            startActivity(intent)
+                            FirebaseMessaging.getInstance().token.addOnCompleteListener { task ->
+                                if (task.isSuccessful) {
+                                    // Get new Instance ID token
+                                    val token = task.result
+
+                                    // Log and toast
+                                    val msg = "FCM Token: $token"
+                                    Log.d("SignUpActivity", msg)
+
+                                    createUser(token.toString())
+                                    val intent = Intent(this, MainActivity::class.java)
+                                    startActivity(intent)
+                                }
+                            }
                         } else {
                             Toast.makeText(this, it.exception.toString(), Toast.LENGTH_SHORT).show()
                         }
@@ -56,7 +69,7 @@ class SignUpActivity : AppCompatActivity() {
         }
     }
 
-    private fun createUser() {
+    private fun createUser(token: String) {
         val currentUser = FirebaseAuth.getInstance().currentUser
         val accountsCollection = db.collection("accounts")
         val accountDocument = currentUser?.let { accountsCollection.document(it.uid) }
@@ -66,7 +79,8 @@ class SignUpActivity : AppCompatActivity() {
             email = currentUser?.email.toString(),
             address = "",
             image = "",
-            cart_list = ArrayList<String>()
+            cart_list = ArrayList<String>(),
+            token = token // Adding the token to the account document
         )
 
         if (accountDocument != null) {

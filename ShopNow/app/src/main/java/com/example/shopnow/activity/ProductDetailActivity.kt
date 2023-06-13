@@ -17,15 +17,17 @@ import com.bumptech.glide.Glide
 import com.example.shopnow.MainActivity
 import com.example.shopnow.R
 import com.example.shopnow.data_class.Account
+import com.example.shopnow.data_class.Order
 import com.example.shopnow.data_class.Product
+import com.example.shopnow.data_class.Shop
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.ktx.toObject
 import com.google.type.Color
 
 class ProductDetailActivity : AppCompatActivity() {
     private val currentUser = FirebaseAuth.getInstance().currentUser
-    private val db = FirebaseFirestore.getInstance()
-    private val accountsCollection = db.collection("accounts")
+    private val database = FirebaseFirestore.getInstance()
 
     private lateinit var toolbar: Toolbar
 
@@ -48,10 +50,12 @@ class ProductDetailActivity : AppCompatActivity() {
         val rating = findViewById<TextView>(R.id.detail_product_rating)
         val quantity = findViewById<TextView>(R.id.detail_product_quantity)
         val description = findViewById<TextView>(R.id.detail_product_description)
+        val shopName = findViewById<TextView>(R.id.shop_name)
         val shopThumbnail = findViewById<ImageView>(R.id.detail_shop_thumbnail)
         val cartButton = findViewById<Button>(R.id.detail_add_to_cart_button)
         val goToCartButton = findViewById<ImageView>(R.id.detail_cart)
         val buyNowButton = findViewById<Button>(R.id.buy_now_button)
+        val visitShopButton = findViewById<Button>(R.id.detail_visit_store_button)
 
         name.text = product.name
 
@@ -59,14 +63,46 @@ class ProductDetailActivity : AppCompatActivity() {
             .load(product.image)
             .into(image)
 
-        Glide.with(this)
-            .load(product.seller_thumbnail)
-            .into(shopThumbnail)
-
         price.text = product.price.toString()
+
+        database
+            .collection("orders")
+            .whereEqualTo("product_id", product.id)
+            .get()
+            .addOnSuccessListener { documents ->
+                var totalRating = 0.0
+                for (document in documents) {
+                    val order = document.toObject<Order>()
+                    val rate = order.rate ?: 0.0 // provide a default value of 0.0 if rate is null
+                    totalRating += rate
+                }
+
+                val average: Double = if (documents.size() > 0) {
+                    totalRating / documents.size()
+                } else {
+                    0.0 // If there are no documents, the average rating is 0
+                }
+
+                rating.text = "Rate: $average"
+            }
+
         rating.text = "Rate: ${product.rating}"
+
         quantity.text = product.quantity.toString() + " left"
         description.text = product.description
+
+        database
+            .collection("shops")
+            .document(product.seller!!)
+            .get()
+            .addOnSuccessListener {
+                val shop = it.toObject<Shop>()
+                shopName.text = shop!!.name
+
+                Glide.with(this)
+                    .load(shop.thumbnail)
+                    .into(shopThumbnail)
+            }
 
         cartButton.setOnClickListener {
             addProductToCart(product)
@@ -81,10 +117,16 @@ class ProductDetailActivity : AppCompatActivity() {
         buyNowButton.setOnClickListener {
             showBottomDialog(product)
         }
+
+        visitShopButton.setOnClickListener {
+            val intent = Intent(this, ShopActivity::class.java)
+            intent.putExtra("seller_id", product.seller)
+            startActivity(intent)
+        }
     }
 
     private fun addProductToCart(product: Product) {
-        val accountDocumentRef = accountsCollection.document(currentUser!!.uid)
+        val accountDocumentRef = database.collection("accounts").document(currentUser!!.uid)
 
         accountDocumentRef.get()
             .addOnSuccessListener { documentSnapshot ->
